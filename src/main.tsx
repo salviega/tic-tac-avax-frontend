@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { WagmiProvider } from 'wagmi'
 import { avalancheFuji } from 'wagmi/chains'
 
-import { getDefaultConfig, RainbowKitProvider } from '@rainbow-me/rainbowkit'
+import { darkTheme,getDefaultConfig, RainbowKitProvider } from '@rainbow-me/rainbowkit'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 import { RAINBOW_KIT_APP_ID, RAINBOW_KIT_APP_NAME } from './config/commons.ts'
@@ -19,13 +19,17 @@ const config = getDefaultConfig({
 	ssr: false // If your dApp uses server side rendering (SSR)
 })
 
+
 const queryClient = new QueryClient()
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
 	<React.StrictMode>
 		<QueryClientProvider client={queryClient}>
 			<WagmiProvider config={config}>
-				<RainbowKitProvider>
+				<RainbowKitProvider coolMode theme={darkTheme({
+					accentColor: '#37005B',
+					accentColorForeground: '#FFFFFF',
+				})}>
 					<App />
 				</RainbowKitProvider>
 			</WagmiProvider>
