@@ -4,8 +4,6 @@ import Layout from '@/components/Layout'
 
 import Home from '../Home'
 
-import './App.css'
-
 function AppRoutes() {
 	const routes = useRoutes([
 		{
