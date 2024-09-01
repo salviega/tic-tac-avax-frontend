@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import confetti from 'canvas-confetti';
 import { AnimatePresence, motion } from 'framer-motion';
-import { BarChart2, Circle, RotateCcw, X } from 'lucide-react';
+import { BarChart2, Circle, Play, RotateCcw, X } from 'lucide-react';
+import { AvatarComponent } from '@rainbow-me/rainbowkit';
 import { Tilt } from 'react-tilt';
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import Avatar from '../Avatar';
 
 const clickSound = new Audio('src/assets/sounds/hoverSound.wav');
 
@@ -19,6 +21,7 @@ type TicTacToeProps = {
     setBoard: (board: number[][]) => void;
     resetBoard: () => void;
     currentRoundCount: number;
+    players: [string, string];
 }
 
 function Square({ value, onSquareClick }: SquareProps) {
@@ -60,7 +63,7 @@ function Square({ value, onSquareClick }: SquareProps) {
     );
 }
 
-export default function CyberpunkBentoTicTacToe({ board, setBoard, resetBoard, currentRoundCount }: TicTacToeProps) {
+export default function CyberpunkBentoTicTacToe({ board, setBoard, resetBoard, currentRoundCount, players }: TicTacToeProps) {
     const [xIsNext, setXIsNext] = useState(true);
     const [xScore, setXScore] = useState(0);
     const [oScore, setOScore] = useState(0);
@@ -89,6 +92,7 @@ export default function CyberpunkBentoTicTacToe({ board, setBoard, resetBoard, c
     }
 
     function handleClick(row: number, col: number) {
+        clickSound.play();
         if (calculateWinner(board) || board[row][col]) {
             return;
         }
@@ -96,11 +100,8 @@ export default function CyberpunkBentoTicTacToe({ board, setBoard, resetBoard, c
         const nextBoard = board.map(row => row.slice());
         nextBoard[row][col] = xIsNext ? 1 : 2;
         setBoard(nextBoard);
-
-        // Enviar la posición al backend
         sendMoveToContract(row, col);
-
-        setXIsNext(!xIsNext); // Alterna el turno
+        setXIsNext(!xIsNext);
     }
 
     async function sendMoveToContract(row: number, col: number) {
@@ -172,8 +173,8 @@ export default function CyberpunkBentoTicTacToe({ board, setBoard, resetBoard, c
                                 <h2 className="text-xl font-semibold mb-4 text-white text-center">Statistics</h2>
                                 <div className="space-y-2">
                                     <p className="text-yellow-400">Total Games: {currentRoundCount}</p>
-                                    <p className="text-yellow-400">X Win Rate: {xScore + oScore > 0 ? ((xScore / (xScore + oScore)) * 100).toFixed(1) : 0}%</p>
-                                    <p className="text-yellow-400">O Win Rate: {xScore + oScore > 0 ? ((oScore / (xScore + oScore)) * 100).toFixed(1) : 0}%</p>
+                                    <p className="text-yellow-400">Player 1:</p><Avatar address={players[0]} />
+                                    <p className="text-yellow-400">Player 2:</p><Avatar address={players[1]} />
                                 </div>
                             </CardContent>
                         </Card>
