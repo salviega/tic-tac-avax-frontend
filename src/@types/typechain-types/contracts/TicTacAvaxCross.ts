@@ -30,17 +30,20 @@ export interface TicTacAvaxCrossInterface extends Interface {
       | "currentPlayer"
       | "execute"
       | "executeWithToken"
+      | "gameCount"
       | "gameOver"
       | "gasService"
       | "gateway"
       | "getBoard"
       | "lastMoveTimestamp"
+      | "lastRoundWinner"
       | "makeMove"
       | "message"
       | "players"
       | "resetGame"
       | "roundCount"
       | "startGame"
+      | "winner"
   ): FunctionFragment;
 
   getEvent(
@@ -68,6 +71,7 @@ export interface TicTacAvaxCrossInterface extends Interface {
     functionFragment: "executeWithToken",
     values: [BytesLike, string, string, BytesLike, string, BigNumberish]
   ): string;
+  encodeFunctionData(functionFragment: "gameCount", values?: undefined): string;
   encodeFunctionData(functionFragment: "gameOver", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "gasService",
@@ -77,6 +81,10 @@ export interface TicTacAvaxCrossInterface extends Interface {
   encodeFunctionData(functionFragment: "getBoard", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "lastMoveTimestamp",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "lastRoundWinner",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -100,6 +108,7 @@ export interface TicTacAvaxCrossInterface extends Interface {
     functionFragment: "startGame",
     values: [string, string, AddressLike, AddressLike]
   ): string;
+  encodeFunctionData(functionFragment: "winner", values?: undefined): string;
 
   decodeFunctionResult(functionFragment: "board", data: BytesLike): Result;
   decodeFunctionResult(
@@ -111,6 +120,7 @@ export interface TicTacAvaxCrossInterface extends Interface {
     functionFragment: "executeWithToken",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "gameCount", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "gameOver", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "gasService", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "gateway", data: BytesLike): Result;
@@ -119,12 +129,17 @@ export interface TicTacAvaxCrossInterface extends Interface {
     functionFragment: "lastMoveTimestamp",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "lastRoundWinner",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "makeMove", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "message", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "players", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "resetGame", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "roundCount", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "startGame", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "winner", data: BytesLike): Result;
 }
 
 export namespace GameDrawEvent {
@@ -265,6 +280,8 @@ export interface TicTacAvaxCross extends BaseContract {
     "nonpayable"
   >;
 
+  gameCount: TypedContractMethod<[], [bigint], "view">;
+
   gameOver: TypedContractMethod<[], [boolean], "view">;
 
   gasService: TypedContractMethod<[], [string], "view">;
@@ -284,6 +301,8 @@ export interface TicTacAvaxCross extends BaseContract {
   >;
 
   lastMoveTimestamp: TypedContractMethod<[], [bigint], "view">;
+
+  lastRoundWinner: TypedContractMethod<[], [string], "view">;
 
   makeMove: TypedContractMethod<
     [
@@ -318,6 +337,8 @@ export interface TicTacAvaxCross extends BaseContract {
     [void],
     "payable"
   >;
+
+  winner: TypedContractMethod<[], [string], "view">;
 
   getFunction<T extends ContractMethod = ContractMethod>(
     key: string | FunctionFragment
@@ -360,6 +381,9 @@ export interface TicTacAvaxCross extends BaseContract {
     "nonpayable"
   >;
   getFunction(
+    nameOrSignature: "gameCount"
+  ): TypedContractMethod<[], [bigint], "view">;
+  getFunction(
     nameOrSignature: "gameOver"
   ): TypedContractMethod<[], [boolean], "view">;
   getFunction(
@@ -384,6 +408,9 @@ export interface TicTacAvaxCross extends BaseContract {
   getFunction(
     nameOrSignature: "lastMoveTimestamp"
   ): TypedContractMethod<[], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "lastRoundWinner"
+  ): TypedContractMethod<[], [string], "view">;
   getFunction(
     nameOrSignature: "makeMove"
   ): TypedContractMethod<
@@ -424,6 +451,9 @@ export interface TicTacAvaxCross extends BaseContract {
     [void],
     "payable"
   >;
+  getFunction(
+    nameOrSignature: "winner"
+  ): TypedContractMethod<[], [string], "view">;
 
   getEvent(
     key: "GameDraw"

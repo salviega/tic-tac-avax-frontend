@@ -28,14 +28,17 @@ export interface TicTacAvaxInterface extends Interface {
     nameOrSignature:
       | "board"
       | "currentPlayer"
+      | "gameCount"
       | "gameOver"
       | "getBoard"
       | "lastMoveTimestamp"
+      | "lastRoundWinner"
       | "makeMove"
       | "players"
       | "resetGame"
       | "roundCount"
       | "startGame"
+      | "winner"
   ): FunctionFragment;
 
   getEvent(
@@ -55,10 +58,15 @@ export interface TicTacAvaxInterface extends Interface {
     functionFragment: "currentPlayer",
     values?: undefined
   ): string;
+  encodeFunctionData(functionFragment: "gameCount", values?: undefined): string;
   encodeFunctionData(functionFragment: "gameOver", values?: undefined): string;
   encodeFunctionData(functionFragment: "getBoard", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "lastMoveTimestamp",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "lastRoundWinner",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -78,16 +86,22 @@ export interface TicTacAvaxInterface extends Interface {
     functionFragment: "startGame",
     values: [AddressLike, AddressLike]
   ): string;
+  encodeFunctionData(functionFragment: "winner", values?: undefined): string;
 
   decodeFunctionResult(functionFragment: "board", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "currentPlayer",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "gameCount", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "gameOver", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getBoard", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "lastMoveTimestamp",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "lastRoundWinner",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "makeMove", data: BytesLike): Result;
@@ -95,6 +109,7 @@ export interface TicTacAvaxInterface extends Interface {
   decodeFunctionResult(functionFragment: "resetGame", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "roundCount", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "startGame", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "winner", data: BytesLike): Result;
 }
 
 export namespace GameDrawEvent {
@@ -211,6 +226,8 @@ export interface TicTacAvax extends BaseContract {
 
   currentPlayer: TypedContractMethod<[], [bigint], "view">;
 
+  gameCount: TypedContractMethod<[], [bigint], "view">;
+
   gameOver: TypedContractMethod<[], [boolean], "view">;
 
   getBoard: TypedContractMethod<
@@ -226,6 +243,8 @@ export interface TicTacAvax extends BaseContract {
   >;
 
   lastMoveTimestamp: TypedContractMethod<[], [bigint], "view">;
+
+  lastRoundWinner: TypedContractMethod<[], [string], "view">;
 
   makeMove: TypedContractMethod<
     [row: BigNumberish, col: BigNumberish],
@@ -245,6 +264,8 @@ export interface TicTacAvax extends BaseContract {
     "nonpayable"
   >;
 
+  winner: TypedContractMethod<[], [string], "view">;
+
   getFunction<T extends ContractMethod = ContractMethod>(
     key: string | FunctionFragment
   ): T;
@@ -258,6 +279,9 @@ export interface TicTacAvax extends BaseContract {
   >;
   getFunction(
     nameOrSignature: "currentPlayer"
+  ): TypedContractMethod<[], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "gameCount"
   ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
     nameOrSignature: "gameOver"
@@ -278,6 +302,9 @@ export interface TicTacAvax extends BaseContract {
   getFunction(
     nameOrSignature: "lastMoveTimestamp"
   ): TypedContractMethod<[], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "lastRoundWinner"
+  ): TypedContractMethod<[], [string], "view">;
   getFunction(
     nameOrSignature: "makeMove"
   ): TypedContractMethod<
@@ -301,6 +328,9 @@ export interface TicTacAvax extends BaseContract {
     [void],
     "nonpayable"
   >;
+  getFunction(
+    nameOrSignature: "winner"
+  ): TypedContractMethod<[], [string], "view">;
 
   getEvent(
     key: "GameDraw"
