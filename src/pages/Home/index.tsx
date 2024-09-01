@@ -85,6 +85,40 @@ export default function Home(): JSX.Element {
 	useEffect(() => {
 		if (address) {
 			fetchData()
+
+			// Escuchar el evento de movimiento
+			ticTacAvax.on('MoveMade', (player, row, col) => {
+				console.log(
+					`Movimiento realizado por ${player} en la posición [${row}, ${col}]`
+				)
+				fetchData() // Actualizar el tablero y otros estados relacionados
+			})
+
+			// Escuchar el evento de ganador
+			ticTacAvax.on('GameWon', winner => {
+				console.log(`Juego ganado por ${winner}`)
+				fetchData() // Actualizar el estado del ganador y otros estados relacionados
+			})
+
+			// Escuchar el evento de empate
+			ticTacAvax.on('GameDraw', () => {
+				console.log('Juego empatado')
+				fetchData() // Actualizar el estado del juego y otros estados relacionados
+			})
+
+			// Escuchar el evento de reinicio del juego
+			ticTacAvax.on('GameReset', () => {
+				console.log('Juego reiniciado')
+				fetchData() // Actualizar el estado del juego y otros estados relacionados
+			})
+
+			// Limpia los listeners cuando el componente se desmonta
+			return () => {
+				ticTacAvax.removeAllListeners('MoveMade')
+				ticTacAvax.removeAllListeners('GameWon')
+				ticTacAvax.removeAllListeners('GameDraw')
+				ticTacAvax.removeAllListeners('GameReset')
+			}
 		}
 	}, [address])
 
@@ -140,12 +174,28 @@ export default function Home(): JSX.Element {
 		}
 	}
 
-	const resetBoard = () => {
-		setBoard([
-			[0, 0, 0],
-			[0, 0, 0],
-			[0, 0, 0]
-		])
+	const onResetGame = async () => {
+		try {
+			if (!isGameOver) {
+				// TODO: toast error
+				return
+			}
+
+			setIsLoading(true)
+
+			const web3Signer = await getFrontendSigner()
+
+			const resetGameTx = await ticTacAvax.connect(web3Signer).resetGame({
+				gasLimit: GAS_LIMIT
+			})
+
+			await resetGameTx.wait()
+		} catch (error) {
+			console.error(error)
+			// TODO: toast error
+		} finally {
+			fetchData()
+		}
 	}
 
 	if (!isConnected) {
@@ -162,20 +212,26 @@ export default function Home(): JSX.Element {
 				<Loading />
 			) : (
 				<>
-					{isConnected && isGameOver && winner !== ZeroAddress ? (
-						<CyberpunkBentoTicTacToe
-							board={board}
-							setBoard={setBoard}
-							resetBoard={resetBoard}
-							currentRoundCount={gameCount}
-							players={[playerOne, playerTwo]}
-							winnerContract={winner}
-							sendMovent={onMakeMove}
-							isLoadingBoard={isLoadingBoard}
-						/>
-					) : (
-						<FormPlayers startGame={onStartGame} />
-					)}
+					<div className=''>
+						{isConnected && !isGameOver ? (
+							<CyberpunkBentoTicTacToe
+								board={board}
+								setBoard={setBoard}
+								resetBoard={onResetGame}
+								currentRoundCount={gameCount}
+								players={[playerOne, playerTwo]}
+								winnerContract={winner}
+								sendMovent={onMakeMove}
+							/>
+						) : (
+							<FormPlayers startGame={onStartGame} />
+						)}
+					</div>
+
+					{/* <BackgroundAudio audioSrc='src/assets/sounds/menuSound.mp3' /> */}
+					{/* <h1 className='text-white font-bold'>CyberpunkBentoTicTacToe</h1> */}
+
+					{/* <CyberpunkBentoTicTacToe /> */}
 				</>
 			)}
 		</div>
