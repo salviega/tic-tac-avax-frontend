@@ -24,9 +24,6 @@ export function getContracts(chain: chains): Contracts {
 	let selectedAddressTicTacAvax: string = ''
 	let selectedAddressTicTacAvaxCross: string = ''
 	let provider: ethers.JsonRpcProvider
-	const webSocket = new ethers.WebSocketProvider(
-		'wss://avalanche-fuji-c-chain-rpc.publicnode.com'
-	)
 
 	const rpcUrls = getRpcUrls()
 
@@ -55,45 +52,13 @@ export function getContracts(chain: chains): Contracts {
 		provider
 	)
 
-	const ticTacAvaxWebSocket: TicTacAvax = TicTacAvax__factory.connect(
-		selectedAddressTicTacAvax,
-		webSocket
-	)
-
 	const ticTacAvaxCross: TicTacAvaxCross = TicTacAvaxCross__factory.connect(
 		selectedAddressTicTacAvaxCross,
 		provider
 	)
 
-	const ticTacAvaxCrossWebSocket: TicTacAvaxCross =
-		TicTacAvaxCross__factory.connect(selectedAddressTicTacAvaxCross, webSocket)
-
-	ticTacAvaxWebSocket.on('MoveMade', (player, row, col) => {
-		console.log(
-			`Movimiento realizado por ${player} en la posición [${row}, ${col}]`
-		)
-		// Aquí puedes actualizar el estado del frontend
-	})
-
-	ticTacAvaxWebSocket.on('GameWon', winner => {
-		console.log(`Juego ganado por ${winner}`)
-		// Actualiza el estado del frontend
-	})
-
-	ticTacAvaxWebSocket.on('GameDraw', () => {
-		console.log('Juego empatado')
-		// Actualiza el estado del frontend
-	})
-
-	ticTacAvaxWebSocket.on('GameReset', () => {
-		console.log('Juego reiniciado')
-		// Actualiza el estado del frontend
-	})
-
 	return {
 		ticTacAvax,
-		ticTacAvaxWebSocket,
-		ticTacAvaxCross,
-		ticTacAvaxCrossWebSocket
+		ticTacAvaxCross
 	}
 }

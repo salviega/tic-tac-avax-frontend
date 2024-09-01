@@ -7,7 +7,7 @@ import { useAccount } from 'wagmi'
 import FormPlayers from '@/components/FormPlayers'
 import NotAccount from '@/components/shared/NotAccount'
 import CyberpunkBentoTicTacToe from '@/components/TicTacToe'
-import { GAS_LIMIT, GAS_VALUE } from '@/config/commons'
+import { GAS_LIMIT } from '@/config/commons'
 import { chains } from '@/enums/chains.enum'
 import {
 	convertBoardToSerializable,
@@ -35,9 +35,7 @@ export default function Home(): JSX.Element {
 
 	const [currentPositionPlayer, setCurrentPositionPlayer] = useState<number>(0)
 
-	const { ticTacAvax, ticTacAvaxWebSocket } = getContracts(
-		chains.AVALANCHE_FUJI
-	)
+	const { ticTacAvax } = getContracts(chains.AVALANCHE_FUJI)
 
 	const [board, setBoard] = useState<number[][]>([
 		[0, 0, 0],
