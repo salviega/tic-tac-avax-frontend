@@ -109,6 +109,11 @@ export default function Home(): JSX.Element {
 				console.log('Juego reiniciado')
 				fetchData()
 			})
+			console.log("connected", isConnected)
+			console.log("game over", isGameOver)
+			console.log("winner", winner)
+			console.log("address", ZeroAddress)
+			console.log(isConnected && !isGameOver && winner === ZeroAddress)
 
 			return () => {
 				ticTacAvaxWebSocket.removeAllListeners('MoveMade')
@@ -117,6 +122,8 @@ export default function Home(): JSX.Element {
 				ticTacAvaxWebSocket.removeAllListeners('GameReset')
 			}
 		}
+
+
 	}, [address])
 
 	const onStartGame = async (playerOne: string, playerTwo: string) => {
@@ -150,7 +157,7 @@ export default function Home(): JSX.Element {
 			const lowerCaseCurrentPlayer = currentPlayer.toLowerCase()
 
 			if (lowerCaseAddress !== lowerCaseCurrentPlayer) {
-				// TODO: toast error
+				toast.error('It is not your turn')
 				return
 			}
 
@@ -174,7 +181,7 @@ export default function Home(): JSX.Element {
 	const onResetGame = async () => {
 		try {
 			if (!isGameOver) {
-				// TODO: toast error
+				toast.error('Game is not over')
 				return
 			}
 
@@ -188,8 +195,7 @@ export default function Home(): JSX.Element {
 
 			await resetGameTx.wait()
 		} catch (error) {
-			console.error(error)
-			// TODO: toast error
+			toast.error('Error resetting game')
 		} finally {
 			fetchData()
 		}
@@ -203,33 +209,31 @@ export default function Home(): JSX.Element {
 			</div>
 		)
 	}
+
 	return (
 		<div className='flex justify-center items-center flex-col min-h-lvh'>
 			{isLoading ? (
 				<Loading />
 			) : (
 				<>
-					<div className=''>
-						{isConnected && isGameOver && winner !== ZeroAddress || !isGameOver && lastWinner !== ZeroAddress ? (
-							<CyberpunkBentoTicTacToe
-								board={board}
-								setBoard={setBoard}
-								resetBoard={onResetGame}
-								currentRoundCount={gameCount}
-								players={[playerOne, playerTwo]}
-								winnerContract={winner}
-								sendMovent={onMakeMove}
-								isLoadingBoard={isLoadingBoard}
-							/>
-						) : (
+					{isConnected && (!isGameOver || (isGameOver && winner !== ZeroAddress)) ? (
+						<CyberpunkBentoTicTacToe
+							board={board}
+							setBoard={setBoard}
+							resetBoard={onResetGame}
+							currentRoundCount={gameCount}
+							players={[playerOne, playerTwo]}
+							winnerContract={winner}
+							sendMovent={onMakeMove}
+							isLoadingBoard={isLoadingBoard}
+						/>
+					) : (
+						/* Renderiza el formulario si el juego ha terminado y el ganador es ZeroAddress */
+						isConnected && isGameOver && winner === ZeroAddress && (
 							<FormPlayers startGame={onStartGame} />
-						)}
-					</div>
+						)
+					)}
 
-					{/* <BackgroundAudio audioSrc='src/assets/sounds/menuSound.mp3' /> */}
-					{/* <h1 className='text-white font-bold'>CyberpunkBentoTicTacToe</h1> */}
-
-					{/* <CyberpunkBentoTicTacToe /> */}
 				</>
 			)}
 		</div>
