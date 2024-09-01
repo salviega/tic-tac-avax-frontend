@@ -1,10 +1,8 @@
 import { useEffect, useRef } from "react";
 import { PowerGlitch } from "powerglitch";
-import { useAccount } from "wagmi"
 
 
 export default function NotAccount() {
-    const { isConnecting } = useAccount();
     const glitchImage = useRef(null)
     useEffect(() => {
         if (glitchImage.current) {
