@@ -1,4 +1,5 @@
 import { ethers } from 'ethers'
+import { webSocket } from 'viem'
 
 import {
 	TicTacAvax,
@@ -25,6 +26,10 @@ export function getContracts(chain: chains): Contracts {
 	let selectedAddressTicTacAvax: string = ''
 	let selectedAddressTicTacAvaxCross: string = ''
 	let provider: ethers.JsonRpcProvider
+	const webSocket = new ethers.WebSocketProvider(
+		'wss://avalanche-fuji-c-chain-rpc.publicnode.com'
+	)
+
 	const rpcUrls = getRpcUrls()
 
 	if (chain === 'arbitrumSepolia') {
@@ -53,11 +58,24 @@ export function getContracts(chain: chains): Contracts {
 		provider
 	)
 
+	const ticTacAvaxWebSocket: TicTacAvax = TicTacAvax__factory.connect(
+		selectedAddressTicTacAvax,
+		webSocket
+	)
+
 	// eslint-disable-next-line camelcase
 	const ticTacAvaxCross: TicTacAvaxCross = TicTacAvaxCross__factory.connect(
 		selectedAddressTicTacAvaxCross,
 		provider
 	)
 
-	return { ticTacAvax, ticTacAvaxCross }
+	const ticTacAvaxCrossWebSocket: TicTacAvaxCross =
+		TicTacAvaxCross__factory.connect(selectedAddressTicTacAvaxCross, webSocket)
+
+	return {
+		ticTacAvax,
+		ticTacAvaxWebSocket,
+		ticTacAvaxCross,
+		ticTacAvaxCrossWebSocket
+	}
 }
