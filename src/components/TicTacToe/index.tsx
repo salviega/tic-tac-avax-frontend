@@ -1,18 +1,21 @@
 import { useEffect, useState } from 'react'
 import confetti from 'canvas-confetti'
 import { AnimatePresence, motion } from 'framer-motion'
-import { BarChart2, Circle, Play, RotateCcw, X } from 'lucide-react'
+import { Circle, RotateCcw, X } from 'lucide-react'
 import { Tilt } from 'react-tilt'
-import BackgroundAudio from '../BackGroundSound'
+// import BackgroundAudio from '../BackGroundSound'
+import { FaFileContract } from "react-icons/fa6";
+
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-import { getContracts } from '@/helpers/contracts'
-import { AvatarComponent } from '@rainbow-me/rainbowkit'
+
+
 
 import Avatar from '../Avatar'
 
 const clickSound = new Audio('src/assets/sounds/hoverSound.wav')
+const winSound = new Audio('src/assets/sounds/winSound.wav')
 
 type SquareProps = {
 	value: number
@@ -94,10 +97,12 @@ export default function CyberpunkBentoTicTacToe({
 
 	useEffect(() => {
 		determineTurn()
+		updateScores()
 		const winner = calculateWinner(board)
 		if (winner) {
 			if (winner === 1) setXScore(prev => prev + 1)
 			else if (winner === 2) setOScore(prev => prev + 1)
+			winSound.play()
 			confetti({
 				particleCount: 100,
 				spread: 70,
@@ -138,19 +143,35 @@ export default function CyberpunkBentoTicTacToe({
 		status = 'Next player: ' + (xIsNext ? 'X' : 'O')
 	}
 
+	function updateScores() {
+		const xCount = board.flat().filter(value => value === 1).length
+		const oCount = board.flat().filter(value => value === 2).length
+		setXScore(xCount)
+		setOScore(oCount)
+	}
+
 	return (
 		<div
 			className={`min-h-screen p-8 flex items-center justify-center font-mono backdrop-blur animate__bounceIn`}
 		>
 			<div className='relative z-10 w-full max-w-4xl'>
-				<div className='flex justify-center flex-col items-center mb-8'>
+				<div className="flex justify-center flex-col items-center mb-8">
 					<img
-						src='src/assets/images/TicTacToe-Avax.png'
-						alt='Logo'
-						className='w-[400px]'
+						src="src/assets/images/TicTacToe-Avax.png"
+						alt="Logo"
+						className="w-[400px] mb-4"
 					/>
+					<a
+						href="https://subnets-test.avax.network/c-chain/address/0x19E59c52971A88F5822e305921d52C9Bd1f06b4E"
+						target="_blank"
+						className="text-center text-[#FACC15] text-lg font-semibold flex items-center"
+					>
+						<FaFileContract className="mr-2 text-2xl" />
+						<p className="truncate max-w-xs">
+							0x19E59c52971A88F5822e305921d52C9Bd1f06b4E
+						</p>
+					</a>
 				</div>
-
 				<div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
 					<Card className='md:col-span-2 bg-black bg-opacity-50 border border-[#37005B] shadow-[0_0_4px_#37005B] rounded-xl overflow-hidden'>
 						<CardContent className="p-6 relative">

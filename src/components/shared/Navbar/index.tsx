@@ -11,7 +11,8 @@ export default function Navbar(): JSX.Element {
 			</div>
 			<ul className="flex flex-col justify-around items-center w-full md:flex-row md:w-auto space-y-4 md:space-y-0 md:space-x-8" role="menu">
 				<li role="menuitem">
-					<ConnectButton />
+
+					<ConnectButton accountStatus={'full'} chainStatus="name" showBalance />
 				</li>
 			</ul>
 		</nav>

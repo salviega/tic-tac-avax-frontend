@@ -12,7 +12,7 @@ import { chains } from '@/enums/chains.enum'
 import {
 	convertBoardToSerializable,
 	getFrontendSigner,
-	timestampToFormatedDate
+	// timestampToFormatedDate
 } from '@/helpers'
 import { getContracts } from '@/helpers/contracts'
 
@@ -24,16 +24,16 @@ export default function Home(): JSX.Element {
 	const [isGameOver, setIsGameOver] = useState<boolean>(false)
 	const [isLoading, setIsLoading] = useState<boolean>(true)
 	const [isLoadingBoard, setIsLoadingBoard] = useState<boolean>(false)
-	const [isStartGame, setIsStartGame] = useState<boolean>(false)
-	const [lastMoveTimestamp, setLastMoveTimestamp] = useState<string>('')
+
+
 	const [lastWinner, setLastWinner] = useState<string>(ZeroAddress)
 	const [playerOne, setPlayerTwo] = useState<string>(ZeroAddress)
 	const [playerTwo, setPlayerOne] = useState<string>(ZeroAddress)
-	const [roundCount, setRoundCount] = useState<number>(0)
+
 	const [winner, setWinner] = useState<string>(ZeroAddress)
 	const { address, isConnected } = useAccount()
 
-	const [currentPositionPlayer, setCurrentPositionPlayer] = useState<number>(0)
+
 
 	const { ticTacAvax } = getContracts(chains.AVALANCHE_FUJI)
 
@@ -59,14 +59,14 @@ export default function Home(): JSX.Element {
 		setBoard(convertBoardToSerializable(await ticTacAvax.getBoard()))
 
 		// get round count
-		setRoundCount(Number(await ticTacAvax.roundCount()))
+		// setRoundCount(Number(await ticTacAvax.roundCount()))
 
 		// get last move time
-		const currentLastMove: string = timestampToFormatedDate(
-			await ticTacAvax.lastMoveTimestamp()
-		)
+		// const currentLastMove: string = timestampToFormatedDate(
+		// 	await ticTacAvax.lastMoveTimestamp()
+		// )
 
-		setLastMoveTimestamp(currentLastMove)
+		// setLastMoveTimestamp(currentLastMove)
 
 		// get current winner
 		setWinner(await ticTacAvax.winner())
@@ -177,7 +177,7 @@ export default function Home(): JSX.Element {
 			{isLoading ? (
 				<Loading />
 			) : (
-				<>
+				<div>
 					{isConnected && (!isGameOver || (isGameOver && winner !== ZeroAddress)) ? (
 						<CyberpunkBentoTicTacToe
 							board={board}
@@ -185,7 +185,7 @@ export default function Home(): JSX.Element {
 							resetBoard={onResetGame}
 							currentRoundCount={gameCount}
 							players={[playerOne, playerTwo]}
-							winnerContract={winner}
+							winnerContract={lastWinner}
 							sendMovent={onMakeMove}
 							isLoadingBoard={isLoadingBoard}
 						/>
@@ -196,7 +196,7 @@ export default function Home(): JSX.Element {
 						)
 					)}
 
-				</>
+				</div>
 			)}
 		</div>
 	)

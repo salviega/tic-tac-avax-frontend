@@ -2,10 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { WagmiProvider } from 'wagmi'
 import {
-	arbitrumSepolia,
 	avalancheFuji,
-	baseSepolia,
-	celoAlfajores
 } from 'wagmi/chains'
 
 import {
@@ -26,7 +23,7 @@ const config = getDefaultConfig({
 	appName: RAINBOW_KIT_APP_NAME,
 	projectId: RAINBOW_KIT_APP_ID,
 	chains: [avalancheFuji],
-	ssr: false // If your dApp uses server side rendering (SSR)
+	ssr: false
 })
 
 const queryClient = new QueryClient()
