@@ -17,6 +17,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 import { RAINBOW_KIT_APP_ID, RAINBOW_KIT_APP_NAME } from './config/commons.ts'
 import App from './pages/App/App.tsx'
+import 'animate.css';
 
 import '@rainbow-me/rainbowkit/styles.css'
 import './index.css'
