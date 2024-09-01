@@ -66,6 +66,7 @@ export default function CyberpunkBentoTicTacToe({ board, setBoard, resetBoard, c
     const [oScore, setOScore] = useState(0);
 
     useEffect(() => {
+        determineTurn(); // Determina quién tiene el turno al inicio del juego o después de restaurarlo
         const winner = calculateWinner(board);
         if (winner) {
             if (winner === 1) setXScore(prev => prev + 1);
@@ -79,6 +80,14 @@ export default function CyberpunkBentoTicTacToe({ board, setBoard, resetBoard, c
         }
     }, [board]);
 
+    function determineTurn() {
+        const xCount = board.flat().filter(value => value === 1).length;
+        const oCount = board.flat().filter(value => value === 2).length;
+
+        // Si la cantidad de X y O son iguales, le toca a X. Si hay un X más, le toca a O.
+        setXIsNext(xCount === oCount);
+    }
+
     function handleClick(row: number, col: number) {
         if (calculateWinner(board) || board[row][col]) {
             return;
@@ -91,14 +100,13 @@ export default function CyberpunkBentoTicTacToe({ board, setBoard, resetBoard, c
         // Enviar la posición al backend
         sendMoveToContract(row, col);
 
-        setXIsNext(!xIsNext);
+        setXIsNext(!xIsNext); // Alterna el turno
     }
 
     async function sendMoveToContract(row: number, col: number) {
         try {
             console.log('Sending move to backend:', row, col);
         } catch (error) {
-
             console.error('Error sending move:', error);
         }
     }
@@ -112,7 +120,6 @@ export default function CyberpunkBentoTicTacToe({ board, setBoard, resetBoard, c
     } else {
         status = 'Next player: ' + (xIsNext ? 'X' : 'O');
     }
-    console.log('status', currentRoundCount);
 
     return (
         <div className={`min-h-screen p-8 flex items-center justify-center font-mono backdrop-blur animate__bounceIn`}>
