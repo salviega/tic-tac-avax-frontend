@@ -33,7 +33,9 @@ export default function Home(): JSX.Element {
 
 	const [currentPositionPlayer, setCurrentPositionPlayer] = useState<number>(0)
 
-	const { ticTacAvax } = getContracts(chains.AVALANCHE_FUJI)
+	const { ticTacAvax, ticTacAvaxWebSocket } = getContracts(
+		chains.AVALANCHE_FUJI
+	)
 
 	const [board, setBoard] = useState<number[][]>([
 		[0, 0, 0],
@@ -83,38 +85,33 @@ export default function Home(): JSX.Element {
 		if (address) {
 			fetchData()
 
-			// Escuchar el evento de movimiento
-			ticTacAvax.on('MoveMade', (player, row, col) => {
+			ticTacAvaxWebSocket.on('MoveMade', (player, row, col) => {
 				console.log(
 					`Movimiento realizado por ${player} en la posición [${row}, ${col}]`
 				)
-				fetchData() // Actualizar el tablero y otros estados relacionados
+				fetchData()
 			})
 
-			// Escuchar el evento de ganador
-			ticTacAvax.on('GameWon', winner => {
+			ticTacAvaxWebSocket.on('GameWon', winner => {
 				console.log(`Juego ganado por ${winner}`)
-				fetchData() // Actualizar el estado del ganador y otros estados relacionados
+				fetchData()
 			})
 
-			// Escuchar el evento de empate
-			ticTacAvax.on('GameDraw', () => {
+			ticTacAvaxWebSocket.on('GameDraw', () => {
 				console.log('Juego empatado')
-				fetchData() // Actualizar el estado del juego y otros estados relacionados
+				fetchData()
 			})
 
-			// Escuchar el evento de reinicio del juego
-			ticTacAvax.on('GameReset', () => {
+			ticTacAvaxWebSocket.on('GameReset', () => {
 				console.log('Juego reiniciado')
-				fetchData() // Actualizar el estado del juego y otros estados relacionados
+				fetchData()
 			})
 
-			// Limpia los listeners cuando el componente se desmonta
 			return () => {
-				ticTacAvax.removeAllListeners('MoveMade')
-				ticTacAvax.removeAllListeners('GameWon')
-				ticTacAvax.removeAllListeners('GameDraw')
-				ticTacAvax.removeAllListeners('GameReset')
+				ticTacAvaxWebSocket.removeAllListeners('MoveMade')
+				ticTacAvaxWebSocket.removeAllListeners('GameWon')
+				ticTacAvaxWebSocket.removeAllListeners('GameDraw')
+				ticTacAvaxWebSocket.removeAllListeners('GameReset')
 			}
 		}
 	}, [address])
