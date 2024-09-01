@@ -59,9 +59,9 @@ export default function Home(): JSX.Element {
 	}
 	const chainEnum: chains | undefined = getChainEnum()
 
-	const { ticTacAvax: connectedTicTacAvax } = getContracts(chainEnum as chains)
+	const { ticTacAvaxCross: connectedTicTacAvax } = getContracts(chainEnum as chains)
 
-	const { ticTacAvax: otherChainTicTacAvax } = getContracts(
+	const { ticTacAvaxCross: otherChainTicTacAvax } = getContracts(
 		(chainEnum as chains) === chains.CELO_ALFAJORES
 			? chains.BASE_SEPOLIA
 			: chains.CELO_ALFAJORES
@@ -98,6 +98,7 @@ export default function Home(): JSX.Element {
 			[bigint, bigint, bigint],
 			[bigint, bigint, bigint]
 		] = await connectedTicTacAvax.getBoard()
+		console.log('currentConnectedBoard', currentConnectedBoard)
 
 		setBoard(convertBoardToSerializable(currentConnectedBoard))
 
@@ -113,6 +114,12 @@ export default function Home(): JSX.Element {
 
 		setLastMoveTimestamp(formatedCurrentLastMoveTimestamp)
 		setIsLoading(false)
+		console.log('currentConnectedCurrentPositionPlayer', currentConnectedCurrentPositionPlayer)
+		console.log('currentOtherChainCurrentPositionPlayer', currentOtherChainCurrentPositionPlayer)
+		console.log('currentConnectedBoard', convertBoardToSerializable(currentConnectedBoard))
+		console.log('currentRoundCount', currentRoundCount)
+		console.log('currentLastMoveTimestamp', currentLastMoveTimestamp)
+
 	}
 
 	// eslint-disable-next-line react-hooks/rules-of-hooks
@@ -125,6 +132,13 @@ export default function Home(): JSX.Element {
 	const startGame = () => {
 		setIsStartGame(true)
 	}
+	const resetBoard = () => {
+		setBoard([
+			[0, 0, 0],
+			[0, 0, 0],
+			[0, 0, 0]
+		]);
+	};
 
 	return (
 		<div className='flex justify-center items-center flex-col min-h-lvh'>
@@ -137,7 +151,11 @@ export default function Home(): JSX.Element {
 							{!isStartGame ? (
 								<FormPlayers startGame={startGame} />
 							) : (
-								<CyberpunkBentoTicTacToe />
+								<CyberpunkBentoTicTacToe
+									board={board}
+									setBoard={setBoard}
+									resetBoard={resetBoard}
+								/>
 							)}
 						</div>
 					) : (
