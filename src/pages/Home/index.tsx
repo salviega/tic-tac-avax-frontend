@@ -16,12 +16,14 @@ import {
 import { getContracts } from '@/helpers/contracts'
 
 import Loading from '../../components/shared/Loading/index'
+import toast from 'react-hot-toast'
 
 export default function Home(): JSX.Element {
 	const [currentPlayer, setCurrentPlayer] = useState<string>(ZeroAddress)
 	const [gameCount, setGameCount] = useState<number>(0)
 	const [isGameOver, setIsGameOver] = useState<boolean>(false)
 	const [isLoading, setIsLoading] = useState<boolean>(true)
+	const [isLoadingBoard, setIsLoadingBoard] = useState<boolean>(false)
 	const [isStartGame, setIsStartGame] = useState<boolean>(false)
 	const [lastMoveTimestamp, setLastMoveTimestamp] = useState<string>('')
 	const [lastWinner, setLastWinner] = useState<string>(ZeroAddress)
@@ -69,6 +71,7 @@ export default function Home(): JSX.Element {
 		// get current winner
 		setWinner(await ticTacAvax.winner())
 
+
 		// get last winner
 		setLastWinner(await ticTacAvax.lastRoundWinner())
 
@@ -110,8 +113,7 @@ export default function Home(): JSX.Element {
 			if (!address) {
 				return
 			}
-
-			setIsLoading(true)
+			setIsLoadingBoard(true)
 
 			const lowerCaseAddress = address.toLowerCase()
 			const lowerCaseCurrentPlayer = currentPlayer.toLowerCase()
@@ -130,9 +132,10 @@ export default function Home(): JSX.Element {
 				})
 			await makeMoveTx.wait()
 		} catch (error) {
-			console.error(error)
-			// TODO: toast error
+			setIsLoadingBoard(false)
+			toast.error('Error making move')
 		} finally {
+			setIsLoadingBoard(false)
 			fetchData()
 		}
 	}
@@ -145,32 +148,34 @@ export default function Home(): JSX.Element {
 		])
 	}
 
+	if (!isConnected) {
+		return (
+			<div className='flex justify-center items-center flex-col min-h-lvh'>
+
+				<NotAccount />
+			</div>
+		)
+	}
 	return (
 		<div className='flex justify-center items-center flex-col min-h-lvh'>
 			{isLoading ? (
 				<Loading />
 			) : (
 				<>
-					<div className=''>
-						{isConnected && !isGameOver ? (
-							<CyberpunkBentoTicTacToe
-								board={board}
-								setBoard={setBoard}
-								resetBoard={resetBoard}
-								currentRoundCount={gameCount}
-								players={[playerOne, playerTwo]}
-								winnerContract={winner}
-								sendMovent={onMakeMove}
-							/>
-						) : (
-							<FormPlayers startGame={onStartGame} />
-						)}
-					</div>
-
-					{/* <BackgroundAudio audioSrc='src/assets/sounds/menuSound.mp3' /> */}
-					{/* <h1 className='text-white font-bold'>CyberpunkBentoTicTacToe</h1> */}
-
-					{/* <CyberpunkBentoTicTacToe /> */}
+					{isConnected && isGameOver && winner !== ZeroAddress ? (
+						<CyberpunkBentoTicTacToe
+							board={board}
+							setBoard={setBoard}
+							resetBoard={resetBoard}
+							currentRoundCount={gameCount}
+							players={[playerOne, playerTwo]}
+							winnerContract={winner}
+							sendMovent={onMakeMove}
+							isLoadingBoard={isLoadingBoard}
+						/>
+					) : (
+						<FormPlayers startGame={onStartGame} />
+					)}
 				</>
 			)}
 		</div>

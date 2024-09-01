@@ -16,6 +16,7 @@ const clickSound = new Audio('src/assets/sounds/hoverSound.wav')
 type SquareProps = {
 	value: number
 	onSquareClick: () => void
+	isLoadingBoard: boolean
 }
 
 type TicTacToeProps = {
@@ -26,9 +27,10 @@ type TicTacToeProps = {
 	players: [string, string]
 	winnerContract: string
 	sendMovent: (row: number, column: number) => void
+	isLoadingBoard: boolean
 }
 
-function Square({ value, onSquareClick }: SquareProps) {
+function Square({ value, onSquareClick, isLoadingBoard }: SquareProps) {
 	const displayValue = value === 1 ? 'X' : value === 2 ? 'O' : null
 
 	return (
@@ -45,6 +47,7 @@ function Square({ value, onSquareClick }: SquareProps) {
 				onClick={onSquareClick}
 				whileHover={{ scale: 1.05, boxShadow: '0 0 10px #37005B' }}
 				whileTap={{ scale: 0.95 }}
+				disabled={isLoadingBoard}
 			>
 				<AnimatePresence>
 					{displayValue && (
@@ -74,14 +77,15 @@ export default function CyberpunkBentoTicTacToe({
 	currentRoundCount,
 	players,
 	winnerContract,
-	sendMovent
+	sendMovent,
+	isLoadingBoard
 }: TicTacToeProps) {
 	const [xIsNext, setXIsNext] = useState(true)
 	const [xScore, setXScore] = useState(0)
 	const [oScore, setOScore] = useState(0)
 
 	useEffect(() => {
-		determineTurn() // Determina quién tiene el turno al inicio del juego o después de restaurarlo
+		determineTurn()
 		const winner = calculateWinner(board)
 		if (winner) {
 			if (winner === 1) setXScore(prev => prev + 1)
