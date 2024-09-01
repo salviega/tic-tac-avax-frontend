@@ -3,7 +3,9 @@ import confetti from 'canvas-confetti';
 import { AnimatePresence, motion } from 'framer-motion';
 import { BarChart2, Circle, Play, RotateCcw, X } from 'lucide-react';
 import { AvatarComponent } from '@rainbow-me/rainbowkit';
+import { getContracts } from '@/helpers/contracts'
 import { Tilt } from 'react-tilt';
+
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -22,6 +24,8 @@ type TicTacToeProps = {
     resetBoard: () => void;
     currentRoundCount: number;
     players: [string, string];
+    winnerContract: string;
+    sendMovent: (row: number, column: number) => void;
 }
 
 function Square({ value, onSquareClick }: SquareProps) {
@@ -63,7 +67,7 @@ function Square({ value, onSquareClick }: SquareProps) {
     );
 }
 
-export default function CyberpunkBentoTicTacToe({ board, setBoard, resetBoard, currentRoundCount, players }: TicTacToeProps) {
+export default function CyberpunkBentoTicTacToe({ board, setBoard, resetBoard, currentRoundCount, players, winnerContract, sendMovent }: TicTacToeProps) {
     const [xIsNext, setXIsNext] = useState(true);
     const [xScore, setXScore] = useState(0);
     const [oScore, setOScore] = useState(0);
@@ -96,25 +100,19 @@ export default function CyberpunkBentoTicTacToe({ board, setBoard, resetBoard, c
         if (calculateWinner(board) || board[row][col]) {
             return;
         }
-
         const nextBoard = board.map(row => row.slice());
         nextBoard[row][col] = xIsNext ? 1 : 2;
         setBoard(nextBoard);
-        sendMoveToContract(row, col);
+        sendMovent(row, col);
         setXIsNext(!xIsNext);
     }
 
-    async function sendMoveToContract(row: number, col: number) {
-        try {
-            console.log('Sending move to backend:', row, col);
-        } catch (error) {
-            console.error('Error sending move:', error);
-        }
-    }
+
 
     const winner = calculateWinner(board);
     let status;
     if (winner) {
+        console.log('Winner:', winner);
         status = 'Winner: ' + (winner === 1 ? 'X' : 'O');
     } else if (board.flat().every(value => value !== 0)) {
         status = 'Draw!';
@@ -162,9 +160,12 @@ export default function CyberpunkBentoTicTacToe({ board, setBoard, resetBoard, c
                             </CardContent>
                         </Card>
                         <Card className="bg-black bg-opacity-50 border border-[#37005B] shadow-[0_0_20px_#37005B] rounded-xl overflow-hidden">
-                            <CardContent className="p-6">
+                            <CardContent className="p-6 flex flex-col justify-center">
                                 <h2 className="text-xl font-semibold mb-4 text-white text-center">Status</h2>
-                                <p className="text-lg text-center font-medium text-[#00FFFF]">{status}</p>
+                                <p className="text-lg text-center mb-4 font-medium text-[#00FFFF]">{status}</p>
+                                <p className='text-xl font-semibold mb-4 text-white text-center'>Último ganador</p>
+                                <Avatar address={winnerContract} />
+
                             </CardContent>
                         </Card>
 

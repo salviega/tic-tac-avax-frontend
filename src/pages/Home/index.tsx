@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { ZeroAddress } from 'ethers'
-import { useAccount } from 'wagmi'
+import { useAccount, useWriteContract } from 'wagmi'
 
 // import BackgroundAudio from '@/components/BackGroundSound';
 import FormPlayers from '@/components/FormPlayers'
@@ -10,6 +10,7 @@ import { chains } from '@/enums/chains.enum'
 import { convertBoardToSerializable, timestampToFormatedDate } from '@/helpers'
 import { getContracts } from '@/helpers/contracts'
 import { BoardContract } from '@/models/board-contract.model'
+
 
 import Loading from '../../components/shared/Loading/index'
 
@@ -23,8 +24,8 @@ export default function Home(): JSX.Element {
 	const [connectedCurrentPositionPlayer, setConnectedCurrentPositionPlayer] =
 		useState<number>(0)
 
-	const [otherChainCurrentPositionPlayer, setOtherChainCurrentPositionPlayer] =
-		useState<number>(0)
+	// const [otherChainCurrentPositionPlayer, setOtherChainCurrentPositionPlayer] =
+	// 	useState<number>(0)
 
 	const [board, setBoard] = useState<number[][]>([
 		[0, 0, 0],
@@ -66,41 +67,42 @@ export default function Home(): JSX.Element {
 	}
 	const chainEnum: chains | undefined = getChainEnum()
 
-	const { ticTacAvaxCross: connectedTicTacAvax } = getContracts(
+	const { ticTacAvax: connectedTicTacAvax } = getContracts(
 		chainEnum as chains
 	)
 
-	const { ticTacAvaxCross: otherChainTicTacAvax } = getContracts(
-		(chainEnum as chains) === chains.CELO_ALFAJORES
-			? chains.BASE_SEPOLIA
-			: chains.CELO_ALFAJORES
-	)
+	// const { ticTacAvax: otherChainTicTacAvax } = getContracts(
+	// 	(chainEnum as chains) === chains.CELO_ALFAJORES
+	// 		? chains.BASE_SEPOLIA
+	// 		: chains.CELO_ALFAJORES
+	// )
 
 	const fetchData = async () => {
 		const connectedIsGameOver = await connectedTicTacAvax.gameOver()
 		setIsGameOver(connectedIsGameOver)
 
 		const currentConnectedCurrentPositionPlayer: bigint =
-			await otherChainTicTacAvax.currentPlayer()
+			await connectedTicTacAvax.currentPlayer()
+
 
 		setConnectedCurrentPositionPlayer(
 			Number(currentConnectedCurrentPositionPlayer)
 		)
 
 		setPlayerOne(
-			await connectedTicTacAvax.players(currentConnectedCurrentPositionPlayer)
+			await connectedTicTacAvax.players(0)
 		)
 
-		const currentOtherChainCurrentPositionPlayer: bigint =
-			await connectedTicTacAvax.currentPlayer()
+		// const currentOtherChainCurrentPositionPlayer: bigint =
+		// 	await connectedTicTacAvax.currentPlayer()
 
 		setPlayerTwo(
-			await connectedTicTacAvax.players(currentOtherChainCurrentPositionPlayer)
+			await connectedTicTacAvax.players(1)
 		)
 
-		setOtherChainCurrentPositionPlayer(
-			Number(currentOtherChainCurrentPositionPlayer)
-		)
+		// setOtherChainCurrentPositionPlayer(
+		// 	Number(currentOtherChainCurrentPositionPlayer)
+		// )
 
 		const currentConnectedBoard: [
 			[bigint, bigint, bigint],
@@ -155,6 +157,12 @@ export default function Home(): JSX.Element {
 		])
 	}
 
+	const sendMovent = async (row: number, column: number) => {
+
+		fetchData();
+	};
+
+
 	return (
 		<div className='flex justify-center items-center flex-col min-h-lvh'>
 			{isLoading ? (
@@ -170,8 +178,10 @@ export default function Home(): JSX.Element {
 									board={board}
 									setBoard={setBoard}
 									resetBoard={resetBoard}
-									currentRoundCount={roundCount}
+									currentRoundCount={gameCount}
 									players={[playerOne, playerTwo]}
+									winnerContract={winner}
+									sendMovent={sendMovent}
 								/>
 							)}
 						</div>
