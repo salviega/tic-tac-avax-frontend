@@ -15,10 +15,11 @@ import baseSepoliaTicTacAvaxCrossJson from '@/assets/json/blockchain/baseSepolia
 import celoAlfajoresTicTacAvaxJson from '@/assets/json/blockchain/celoAlfajores/TicTacAvax.json'
 import celoAlfajoresTicTacAvaxCrossJson from '@/assets/json/blockchain/celoAlfajores/TicTacAvaxCross.json'
 import { chains } from '@/enums/chains.enum'
+import { Contracts } from '@/models/contracts.model'
 
 import { getRpcUrls } from '..'
 
-export function getContracts(chain: chains) {
+export function getContracts(chain: chains): Contracts {
 	let selectedAddressTicTacAvax: string = ''
 	let selectedAddressTicTacAvaxCross: string = ''
 	let provider: ethers.JsonRpcProvider

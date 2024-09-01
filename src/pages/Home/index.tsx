@@ -1,27 +1,55 @@
-import { useEffect, useState } from 'react';
-import { useAccount } from 'wagmi';
+import { useEffect, useState } from 'react'
+import { useAccount } from 'wagmi'
 
 // import BackgroundAudio from '@/components/BackGroundSound';
-import FormPlayers from '@/components/FormPlayers';
-import NotAccount from '@/components/shared/NotAccount';
-import CyberpunkBentoTicTacToe from '@/components/TicTacToe';
+import FormPlayers from '@/components/FormPlayers'
+import NotAccount from '@/components/shared/NotAccount'
+import CyberpunkBentoTicTacToe from '@/components/TicTacToe'
+import { chains } from '@/enums/chains.enum'
+import { getContracts } from '@/helpers/contracts'
 
-import Loading from '../../components/shared/Loading/index';
+import Loading from '../../components/shared/Loading/index'
 
 export default function Home(): JSX.Element {
-	const [isLoading, setIsLoading] = useState<boolean>(true);
-	const [isStartGame, setIsStartGame] = useState<boolean>(false);
-	const { isConnected } = useAccount();
-	useEffect(() => {
-		const timer = setTimeout(() => {
-			setIsLoading(false);
-		}, 5000);
+	const [isGameOver, setIsGameOver] = useState<boolean>(false)
+	const [isLoading, setIsLoading] = useState<boolean>(true)
+	const [isStartGame, setIsStartGame] = useState<boolean>(false)
+	const { address, isConnected, chainId } = useAccount()
 
-		return () => clearTimeout(timer);
-	}, []);
+	if (chainId === undefined) {
+		return <Loading />
+	}
+
+	const getChainEnum = (): chains | undefined => {
+		switch (chainId) {
+			case 421614:
+				return chains.ARBITRUM_SEPOLIA
+			case 43113:
+				return chains.AVALANCHE_FUJI
+			case 84532:
+				return chains.BASE_SEPOLIA
+			case 44787:
+				return chains.CELO_ALFAJORES
+			default:
+				return undefined
+		}
+	}
+
+	const { ticTacAvax } = getContracts(getChainEnum() as chains)
+
+	// eslint-disable-next-line react-hooks/rules-of-hooks
+	useEffect(() => {
+		if (address) {
+			;(async () => {
+				const isGameOver = await ticTacAvax.gameOver()
+				setIsGameOver(isGameOver)
+				setIsLoading(false)
+			})()
+		}
+	}, [address])
 
 	const startGame = () => {
-		setIsStartGame(true);
+		setIsStartGame(true)
 	}
 
 	return (
@@ -30,16 +58,18 @@ export default function Home(): JSX.Element {
 				<Loading />
 			) : (
 				<>
-					{
-						isConnected ? <div className="">
-
-							{!isStartGame ? <FormPlayers startGame={startGame} /> : <CyberpunkBentoTicTacToe />}
-
+					<p className='text-white font-bold'>{`It's ${isGameOver ? 'Game Over' : 'Your Turn'}`}</p>
+					{isConnected ? (
+						<div className=''>
+							{!isStartGame ? (
+								<FormPlayers startGame={startGame} />
+							) : (
+								<CyberpunkBentoTicTacToe />
+							)}
 						</div>
-							:
-
-							<NotAccount />
-					}
+					) : (
+						<NotAccount />
+					)}
 					{/* <BackgroundAudio audioSrc='src/assets/sounds/menuSound.mp3' /> */}
 					{/* <h1 className='text-white font-bold'>CyberpunkBentoTicTacToe</h1> */}
 
@@ -47,5 +77,5 @@ export default function Home(): JSX.Element {
 				</>
 			)}
 		</div>
-	);
+	)
 }

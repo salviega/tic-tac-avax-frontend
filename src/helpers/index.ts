@@ -8,27 +8,27 @@ export function getRpcUrls(): {
 	rpcBaseSepolia: string
 	rpcCeloAlfajores: string
 } {
-	if (typeof import.meta.env.RPC_ARBITRUM_SEPOLIA !== 'string') {
-		throw new Error('RPC_ARBITRUM_SEPOLIA is not a string')
+	if (typeof import.meta.env.VITE_RPC_ARBITRUM_SEPOLIA !== 'string') {
+		throw new Error('VITE_RPC_ARBITRUM_SEPOLIA is not a string')
 	}
 
-	if (typeof import.meta.env.RPC_AVALANCE_FUJI !== 'string') {
-		throw new Error('RPC_AVALANCE_FUJI is not a string')
+	if (typeof import.meta.env.VITE_RPC_AVALANCE_FUJI !== 'string') {
+		throw new Error('VITE_RPC_AVALANCE_FUJI is not a string')
 	}
 
-	if (typeof import.meta.env.RPC_BASE_SEPOLIA !== 'string') {
-		throw new Error('RPC_BASE_SEPOLIA is not a string')
+	if (typeof import.meta.env.VITE_RPC_BASE_SEPOLIA !== 'string') {
+		throw new Error('VITE_RPC_BASE_SEPOLIA is not a string')
 	}
 
-	if (typeof import.meta.env.RPC_CELO_ALFAJORES !== 'string') {
-		throw new Error('RPC_CELO_ALFAJORES is not a string')
+	if (typeof import.meta.env.VITE_RPC_CELO_ALFAJORES !== 'string') {
+		throw new Error('VITE_RPC_CELO_ALFAJORES is not a string')
 	}
 
 	return {
-		rpcArbitrumSepolia: import.meta.env.RPC_ARBITRUM_SEPOLIA,
-		rpcAvalancheFuji: import.meta.env.RPC_AVALANCE_FUJI,
-		rpcBaseSepolia: import.meta.env.RPC_BASE_SEPOLIA,
-		rpcCeloAlfajores: import.meta.env.RPC_CELO_ALFAJORES
+		rpcArbitrumSepolia: import.meta.env.VITE_RPC_ARBITRUM_SEPOLIA,
+		rpcAvalancheFuji: import.meta.env.VITE_RPC_AVALANCE_FUJI,
+		rpcBaseSepolia: import.meta.env.VITE_RPC_BASE_SEPOLIA,
+		rpcCeloAlfajores: import.meta.env.VITE_RPC_CELO_ALFAJORES
 	}
 }
 
