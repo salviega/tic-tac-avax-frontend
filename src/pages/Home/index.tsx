@@ -6,12 +6,31 @@ import FormPlayers from '@/components/FormPlayers'
 import NotAccount from '@/components/shared/NotAccount'
 import CyberpunkBentoTicTacToe from '@/components/TicTacToe'
 import { chains } from '@/enums/chains.enum'
+import { timestampToFormatedDate } from '@/helpers'
 import { getContracts } from '@/helpers/contracts'
+import { BoardContract } from '@/models/board-contract.model'
 
 import Loading from '../../components/shared/Loading/index'
 
 export default function Home(): JSX.Element {
 	const [isGameOver, setIsGameOver] = useState<boolean>(false)
+
+	const [playerOne, setPlayerTwo] = useState<string>('')
+
+	const [playerTwo, setPlayerOne] = useState<string>('')
+
+	const [connectedCurrentPositionPlayer, setConnectedCurrentPositionPlayer] =
+		useState<number>(0)
+
+	const [otherChainCurrentPositionPlayer, setOtherChainCurrentPositionPlayer] =
+		useState<number>(0)
+
+	const [board, setBoard] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0, 0])
+
+	const [roundCount, setRoundCount] = useState<number>(0)
+
+	const [lastMoveTimestamp, setLastMoveTimestamp] = useState<string>('')
+
 	const [isLoading, setIsLoading] = useState<boolean>(true)
 	const [isStartGame, setIsStartGame] = useState<boolean>(false)
 	const { address, isConnected, chainId } = useAccount()
@@ -34,17 +53,72 @@ export default function Home(): JSX.Element {
 				return undefined
 		}
 	}
+	const chainEnum: chains | undefined = getChainEnum()
 
-	const { ticTacAvax } = getContracts(getChainEnum() as chains)
+	const { ticTacAvax: connectedTicTacAvax } = getContracts(chainEnum as chains)
+
+	const { ticTacAvax: otherChainTicTacAvax } = getContracts(
+		(chainEnum as chains) === chains.CELO_ALFAJORES
+			? chains.BASE_SEPOLIA
+			: chains.CELO_ALFAJORES
+	)
+
+	const fetchData = async () => {
+		const connectedIsGameOver = await connectedTicTacAvax.gameOver()
+		setIsGameOver(connectedIsGameOver)
+
+		const currentConnectedCurrentPositionPlayer: bigint =
+			await otherChainTicTacAvax.currentPlayer()
+
+		setConnectedCurrentPositionPlayer(
+			Number(currentConnectedCurrentPositionPlayer)
+		)
+
+		setPlayerOne(
+			await connectedTicTacAvax.players(currentConnectedCurrentPositionPlayer)
+		)
+
+		const currentOtherChainCurrentPositionPlayer: bigint =
+			await connectedTicTacAvax.currentPlayer()
+
+		setPlayerTwo(
+			await connectedTicTacAvax.players(currentOtherChainCurrentPositionPlayer)
+		)
+
+		setOtherChainCurrentPositionPlayer(
+			Number(currentOtherChainCurrentPositionPlayer)
+		)
+
+		const currentConnectedBoard: [
+			[bigint, bigint, bigint],
+			[bigint, bigint, bigint],
+			[bigint, bigint, bigint]
+		] = await connectedTicTacAvax.getBoard()
+
+		setBoard(
+			currentConnectedBoard.map((value: [bigint, bigint, bigint]) =>
+				Number(value)
+			)
+		)
+
+		const currentRoundCount: bigint = await connectedTicTacAvax.roundCount()
+		setRoundCount(Number(currentRoundCount))
+
+		const currentLastMoveTimestamp: bigint =
+			await connectedTicTacAvax.lastMoveTimestamp()
+
+		const formatedCurrentLastMoveTimestamp: string = timestampToFormatedDate(
+			currentLastMoveTimestamp
+		)
+
+		setLastMoveTimestamp(formatedCurrentLastMoveTimestamp)
+		setIsLoading(false)
+	}
 
 	// eslint-disable-next-line react-hooks/rules-of-hooks
 	useEffect(() => {
 		if (address) {
-			;(async () => {
-				const isGameOver = await ticTacAvax.gameOver()
-				setIsGameOver(isGameOver)
-				setIsLoading(false)
-			})()
+			fetchData()
 		}
 	}, [address])
 
@@ -58,7 +132,6 @@ export default function Home(): JSX.Element {
 				<Loading />
 			) : (
 				<>
-					<p className='text-white font-bold'>{`It's ${isGameOver ? 'Game Over' : 'Your Turn'}`}</p>
 					{isConnected ? (
 						<div className=''>
 							{!isStartGame ? (
