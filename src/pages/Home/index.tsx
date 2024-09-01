@@ -213,7 +213,7 @@ export default function Home(): JSX.Element {
 			) : (
 				<>
 					<div className=''>
-						{isConnected && !isGameOver ? (
+						{isConnected && isGameOver && winner !== ZeroAddress || !isGameOver && lastWinner !== ZeroAddress ? (
 							<CyberpunkBentoTicTacToe
 								board={board}
 								setBoard={setBoard}
@@ -222,6 +222,7 @@ export default function Home(): JSX.Element {
 								players={[playerOne, playerTwo]}
 								winnerContract={winner}
 								sendMovent={onMakeMove}
+								isLoadingBoard={isLoadingBoard}
 							/>
 						) : (
 							<FormPlayers startGame={onStartGame} />

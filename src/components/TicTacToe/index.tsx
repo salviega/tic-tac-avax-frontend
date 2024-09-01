@@ -3,6 +3,7 @@ import confetti from 'canvas-confetti'
 import { AnimatePresence, motion } from 'framer-motion'
 import { BarChart2, Circle, Play, RotateCcw, X } from 'lucide-react'
 import { Tilt } from 'react-tilt'
+import BackgroundAudio from '../BackGroundSound'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -28,6 +29,13 @@ type TicTacToeProps = {
 	winnerContract: string
 	sendMovent: (row: number, column: number) => void
 	isLoadingBoard: boolean
+}
+function LoadingOverlay() {
+	return (
+		<div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 z-20">
+			<div className="w-16 h-16 border-4 border-t-transparent border-white rounded-full animate-spin"></div>
+		</div>
+	)
 }
 
 function Square({ value, onSquareClick, isLoadingBoard }: SquareProps) {
@@ -145,14 +153,16 @@ export default function CyberpunkBentoTicTacToe({
 
 				<div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
 					<Card className='md:col-span-2 bg-black bg-opacity-50 border border-[#37005B] shadow-[0_0_4px_#37005B] rounded-xl overflow-hidden'>
-						<CardContent className='p-6'>
-							<div className='grid grid-cols-3 gap-4 aspect-square'>
+						<CardContent className="p-6 relative">
+							{isLoadingBoard && <LoadingOverlay />}
+							<div className={`grid grid-cols-3 gap-4 aspect-square ${isLoadingBoard ? 'pointer-events-none' : ''}`}>
 								{board.map((row, rowIndex) =>
 									row.map((value, colIndex) => (
 										<Square
 											key={`${rowIndex}-${colIndex}`}
 											value={value}
 											onSquareClick={() => handleClick(rowIndex, colIndex)}
+											isLoadingBoard={isLoadingBoard}
 										/>
 									))
 								)}
