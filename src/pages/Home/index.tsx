@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { ZeroAddress } from 'ethers'
 import { useAccount } from 'wagmi'
 
 // import BackgroundAudio from '@/components/BackGroundSound';
@@ -15,9 +16,9 @@ import Loading from '../../components/shared/Loading/index'
 export default function Home(): JSX.Element {
 	const [isGameOver, setIsGameOver] = useState<boolean>(false)
 
-	const [playerOne, setPlayerTwo] = useState<string>('')
+	const [playerOne, setPlayerTwo] = useState<string>(ZeroAddress)
 
-	const [playerTwo, setPlayerOne] = useState<string>('')
+	const [playerTwo, setPlayerOne] = useState<string>(ZeroAddress)
 
 	const [connectedCurrentPositionPlayer, setConnectedCurrentPositionPlayer] =
 		useState<number>(0)
@@ -31,9 +32,15 @@ export default function Home(): JSX.Element {
 		[0, 0, 0]
 	])
 
+	const [winner, setWinner] = useState<string>(ZeroAddress)
+
 	const [roundCount, setRoundCount] = useState<number>(0)
 
+	const [lastWinner, setLastWinner] = useState<string>(ZeroAddress)
+
 	const [lastMoveTimestamp, setLastMoveTimestamp] = useState<string>('')
+
+	const [gameCount, setGameCount] = useState<number>(0)
 
 	const [isLoading, setIsLoading] = useState<boolean>(true)
 	const [isStartGame, setIsStartGame] = useState<boolean>(false)
@@ -59,7 +66,9 @@ export default function Home(): JSX.Element {
 	}
 	const chainEnum: chains | undefined = getChainEnum()
 
-	const { ticTacAvaxCross: connectedTicTacAvax } = getContracts(chainEnum as chains)
+	const { ticTacAvaxCross: connectedTicTacAvax } = getContracts(
+		chainEnum as chains
+	)
 
 	const { ticTacAvaxCross: otherChainTicTacAvax } = getContracts(
 		(chainEnum as chains) === chains.CELO_ALFAJORES
@@ -113,8 +122,19 @@ export default function Home(): JSX.Element {
 		)
 
 		setLastMoveTimestamp(formatedCurrentLastMoveTimestamp)
+
+		const currentWinner: string = await connectedTicTacAvax.winner()
+		setWinner(currentWinner)
+
+		const currentLastWinner: string =
+			await connectedTicTacAvax.lastRoundWinner()
+
+		setLastWinner(currentLastWinner)
+
+		const currentGameCount: bigint = await connectedTicTacAvax.gameCount()
+		setGameCount(Number(currentGameCount))
+
 		setIsLoading(false)
-		console.log('currentLastMoveTimestamp', await connectedTicTacAvax.players(currentOtherChainCurrentPositionPlayer))
 	}
 
 	// eslint-disable-next-line react-hooks/rules-of-hooks
@@ -132,8 +152,8 @@ export default function Home(): JSX.Element {
 			[0, 0, 0],
 			[0, 0, 0],
 			[0, 0, 0]
-		]);
-	};
+		])
+	}
 
 	return (
 		<div className='flex justify-center items-center flex-col min-h-lvh'>
