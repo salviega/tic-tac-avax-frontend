@@ -1,31 +1,39 @@
 import { useEffect, useState } from 'react'
 import { ZeroAddress } from 'ethers'
-import { useAccount, useWriteContract } from 'wagmi'
+import { useAccount } from 'wagmi'
 
 // import BackgroundAudio from '@/components/BackGroundSound';
 import FormPlayers from '@/components/FormPlayers'
 import NotAccount from '@/components/shared/NotAccount'
 import CyberpunkBentoTicTacToe from '@/components/TicTacToe'
+import { GAS_LIMIT, GAS_VALUE } from '@/config/commons'
 import { chains } from '@/enums/chains.enum'
-import { convertBoardToSerializable, timestampToFormatedDate } from '@/helpers'
+import {
+	convertBoardToSerializable,
+	getFrontendSigner,
+	timestampToFormatedDate
+} from '@/helpers'
 import { getContracts } from '@/helpers/contracts'
-import { BoardContract } from '@/models/board-contract.model'
-
 
 import Loading from '../../components/shared/Loading/index'
 
 export default function Home(): JSX.Element {
+	const [currentPlayer, setCurrentPlayer] = useState<string>(ZeroAddress)
+	const [gameCount, setGameCount] = useState<number>(0)
 	const [isGameOver, setIsGameOver] = useState<boolean>(false)
-
+	const [isLoading, setIsLoading] = useState<boolean>(true)
+	const [isStartGame, setIsStartGame] = useState<boolean>(false)
+	const [lastMoveTimestamp, setLastMoveTimestamp] = useState<string>('')
+	const [lastWinner, setLastWinner] = useState<string>(ZeroAddress)
 	const [playerOne, setPlayerTwo] = useState<string>(ZeroAddress)
-
 	const [playerTwo, setPlayerOne] = useState<string>(ZeroAddress)
+	const [roundCount, setRoundCount] = useState<number>(0)
+	const [winner, setWinner] = useState<string>(ZeroAddress)
+	const { address, isConnected } = useAccount()
 
-	const [connectedCurrentPositionPlayer, setConnectedCurrentPositionPlayer] =
-		useState<number>(0)
+	const [currentPositionPlayer, setCurrentPositionPlayer] = useState<number>(0)
 
-	// const [otherChainCurrentPositionPlayer, setOtherChainCurrentPositionPlayer] =
-	// 	useState<number>(0)
+	const { ticTacAvax } = getContracts(chains.AVALANCHE_FUJI)
 
 	const [board, setBoard] = useState<number[][]>([
 		[0, 0, 0],
@@ -33,108 +41,39 @@ export default function Home(): JSX.Element {
 		[0, 0, 0]
 	])
 
-	const [winner, setWinner] = useState<string>(ZeroAddress)
-
-	const [roundCount, setRoundCount] = useState<number>(0)
-
-	const [lastWinner, setLastWinner] = useState<string>(ZeroAddress)
-
-	const [lastMoveTimestamp, setLastMoveTimestamp] = useState<string>('')
-
-	const [gameCount, setGameCount] = useState<number>(0)
-
-	const [isLoading, setIsLoading] = useState<boolean>(true)
-	const [isStartGame, setIsStartGame] = useState<boolean>(false)
-	const { address, isConnected, chainId } = useAccount()
-
-	if (chainId === undefined) {
-		return <Loading />
-	}
-
-	const getChainEnum = (): chains | undefined => {
-		switch (chainId) {
-			case 421614:
-				return chains.ARBITRUM_SEPOLIA
-			case 43113:
-				return chains.AVALANCHE_FUJI
-			case 84532:
-				return chains.BASE_SEPOLIA
-			case 44787:
-				return chains.CELO_ALFAJORES
-			default:
-				return undefined
-		}
-	}
-	const chainEnum: chains | undefined = getChainEnum()
-
-	const { ticTacAvax: connectedTicTacAvax } = getContracts(
-		chainEnum as chains
-	)
-
-	// const { ticTacAvax: otherChainTicTacAvax } = getContracts(
-	// 	(chainEnum as chains) === chains.CELO_ALFAJORES
-	// 		? chains.BASE_SEPOLIA
-	// 		: chains.CELO_ALFAJORES
-	// )
-
 	const fetchData = async () => {
-		const connectedIsGameOver = await connectedTicTacAvax.gameOver()
-		setIsGameOver(connectedIsGameOver)
+		// get game status
+		setIsGameOver(await ticTacAvax.gameOver())
 
-		const currentConnectedCurrentPositionPlayer: bigint =
-			await connectedTicTacAvax.currentPlayer()
+		// get current player
+		const positionPlayer: number = Number(await ticTacAvax.currentPlayer())
+		setCurrentPlayer(await ticTacAvax.players(positionPlayer))
 
+		// get players
+		setPlayerOne(await ticTacAvax.players(0))
+		setPlayerTwo(await ticTacAvax.players(1))
 
-		setConnectedCurrentPositionPlayer(
-			Number(currentConnectedCurrentPositionPlayer)
+		// get board
+		setBoard(convertBoardToSerializable(await ticTacAvax.getBoard()))
+
+		// get round count
+		setRoundCount(Number(await ticTacAvax.roundCount()))
+
+		// get last move time
+		const currentLastMove: string = timestampToFormatedDate(
+			await ticTacAvax.lastMoveTimestamp()
 		)
 
-		setPlayerOne(
-			await connectedTicTacAvax.players(0)
-		)
+		setLastMoveTimestamp(currentLastMove)
 
-		// const currentOtherChainCurrentPositionPlayer: bigint =
-		// 	await connectedTicTacAvax.currentPlayer()
+		// get current winner
+		setWinner(await ticTacAvax.winner())
 
-		setPlayerTwo(
-			await connectedTicTacAvax.players(1)
-		)
+		// get last winner
+		setLastWinner(await ticTacAvax.lastRoundWinner())
 
-		// setOtherChainCurrentPositionPlayer(
-		// 	Number(currentOtherChainCurrentPositionPlayer)
-		// )
-
-		const currentConnectedBoard: [
-			[bigint, bigint, bigint],
-			[bigint, bigint, bigint],
-			[bigint, bigint, bigint]
-		] = await connectedTicTacAvax.getBoard()
-		console.log('currentConnectedBoard', currentConnectedBoard)
-
-		setBoard(convertBoardToSerializable(currentConnectedBoard))
-
-		const currentRoundCount: bigint = await connectedTicTacAvax.roundCount()
-		setRoundCount(Number(currentRoundCount))
-
-		const currentLastMoveTimestamp: bigint =
-			await connectedTicTacAvax.lastMoveTimestamp()
-
-		const formatedCurrentLastMoveTimestamp: string = timestampToFormatedDate(
-			currentLastMoveTimestamp
-		)
-
-		setLastMoveTimestamp(formatedCurrentLastMoveTimestamp)
-
-		const currentWinner: string = await connectedTicTacAvax.winner()
-		setWinner(currentWinner)
-
-		const currentLastWinner: string =
-			await connectedTicTacAvax.lastRoundWinner()
-
-		setLastWinner(currentLastWinner)
-
-		const currentGameCount: bigint = await connectedTicTacAvax.gameCount()
-		setGameCount(Number(currentGameCount))
+		// get game count
+		setGameCount(Number(await ticTacAvax.gameCount()))
 
 		setIsLoading(false)
 	}
@@ -146,9 +85,58 @@ export default function Home(): JSX.Element {
 		}
 	}, [address])
 
-	const startGame = () => {
-		setIsStartGame(true)
+	const onStartGame = async (playerOne: string, playerTwo: string) => {
+		try {
+			setIsLoading(true)
+
+			const web3Signer = await getFrontendSigner()
+
+			const startGameTx = await ticTacAvax
+				.connect(web3Signer)
+				.startGame(playerOne, playerTwo, {
+					gasLimit: GAS_LIMIT
+				})
+			await startGameTx.wait()
+		} catch (error) {
+			console.error(error)
+			// TODO: toast error
+		} finally {
+			fetchData()
+		}
 	}
+
+	const onMakeMove = async (row: number, column: number) => {
+		try {
+			if (!address) {
+				return
+			}
+
+			setIsLoading(true)
+
+			const lowerCaseAddress = address.toLowerCase()
+			const lowerCaseCurrentPlayer = currentPlayer.toLowerCase()
+
+			if (lowerCaseAddress !== lowerCaseCurrentPlayer) {
+				// TODO: toast error
+				return
+			}
+
+			const web3Signer = await getFrontendSigner()
+
+			const makeMoveTx = await ticTacAvax
+				.connect(web3Signer)
+				.makeMove(row, column, {
+					gasLimit: GAS_LIMIT
+				})
+			await makeMoveTx.wait()
+		} catch (error) {
+			console.error(error)
+			// TODO: toast error
+		} finally {
+			fetchData()
+		}
+	}
+
 	const resetBoard = () => {
 		setBoard([
 			[0, 0, 0],
@@ -157,37 +145,28 @@ export default function Home(): JSX.Element {
 		])
 	}
 
-	const sendMovent = async (row: number, column: number) => {
-
-		fetchData();
-	};
-
-
 	return (
 		<div className='flex justify-center items-center flex-col min-h-lvh'>
 			{isLoading ? (
 				<Loading />
 			) : (
 				<>
-					{isConnected ? (
-						<div className=''>
-							{!isStartGame ? (
-								<FormPlayers startGame={startGame} />
-							) : (
-								<CyberpunkBentoTicTacToe
-									board={board}
-									setBoard={setBoard}
-									resetBoard={resetBoard}
-									currentRoundCount={gameCount}
-									players={[playerOne, playerTwo]}
-									winnerContract={winner}
-									sendMovent={sendMovent}
-								/>
-							)}
-						</div>
-					) : (
-						<NotAccount />
-					)}
+					<div className=''>
+						{isConnected && !isGameOver ? (
+							<CyberpunkBentoTicTacToe
+								board={board}
+								setBoard={setBoard}
+								resetBoard={resetBoard}
+								currentRoundCount={gameCount}
+								players={[playerOne, playerTwo]}
+								winnerContract={winner}
+								sendMovent={onMakeMove}
+							/>
+						) : (
+							<FormPlayers startGame={onStartGame} />
+						)}
+					</div>
+
 					{/* <BackgroundAudio audioSrc='src/assets/sounds/menuSound.mp3' /> */}
 					{/* <h1 className='text-white font-bold'>CyberpunkBentoTicTacToe</h1> */}
 
