@@ -114,12 +114,7 @@ export default function Home(): JSX.Element {
 
 		setLastMoveTimestamp(formatedCurrentLastMoveTimestamp)
 		setIsLoading(false)
-		console.log('currentConnectedCurrentPositionPlayer', currentConnectedCurrentPositionPlayer)
-		console.log('currentOtherChainCurrentPositionPlayer', currentOtherChainCurrentPositionPlayer)
-		console.log('currentConnectedBoard', convertBoardToSerializable(currentConnectedBoard))
-		console.log('currentRoundCount', currentRoundCount)
-		console.log('currentLastMoveTimestamp', currentLastMoveTimestamp)
-
+		console.log('currentLastMoveTimestamp', await connectedTicTacAvax.players(currentOtherChainCurrentPositionPlayer))
 	}
 
 	// eslint-disable-next-line react-hooks/rules-of-hooks
@@ -156,6 +151,7 @@ export default function Home(): JSX.Element {
 									setBoard={setBoard}
 									resetBoard={resetBoard}
 									currentRoundCount={roundCount}
+									players={[playerOne, playerTwo]}
 								/>
 							)}
 						</div>
