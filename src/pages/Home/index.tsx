@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
 import { ZeroAddress } from 'ethers'
+import toast from 'react-hot-toast'
 import { useAccount } from 'wagmi'
 
 // import BackgroundAudio from '@/components/BackGroundSound';
 import FormPlayers from '@/components/FormPlayers'
 import NotAccount from '@/components/shared/NotAccount'
 import CyberpunkBentoTicTacToe from '@/components/TicTacToe'
-import { GAS_LIMIT, GAS_VALUE } from '@/config/commons'
+import { GAS_LIMIT } from '@/config/commons'
 import { chains } from '@/enums/chains.enum'
 import {
 	convertBoardToSerializable,
@@ -16,7 +17,6 @@ import {
 import { getContracts } from '@/helpers/contracts'
 
 import Loading from '../../components/shared/Loading/index'
-import toast from 'react-hot-toast'
 
 export default function Home(): JSX.Element {
 	const [currentPlayer, setCurrentPlayer] = useState<string>(ZeroAddress)
@@ -35,9 +35,7 @@ export default function Home(): JSX.Element {
 
 	const [currentPositionPlayer, setCurrentPositionPlayer] = useState<number>(0)
 
-	const { ticTacAvax, ticTacAvaxWebSocket } = getContracts(
-		chains.AVALANCHE_FUJI
-	)
+	const { ticTacAvax } = getContracts(chains.AVALANCHE_FUJI)
 
 	const [board, setBoard] = useState<number[][]>([
 		[0, 0, 0],
@@ -73,7 +71,6 @@ export default function Home(): JSX.Element {
 		// get current winner
 		setWinner(await ticTacAvax.winner())
 
-
 		// get last winner
 		setLastWinner(await ticTacAvax.lastRoundWinner())
 
@@ -87,40 +84,6 @@ export default function Home(): JSX.Element {
 	useEffect(() => {
 		if (address) {
 			fetchData()
-
-			ticTacAvaxWebSocket.on('MoveMade', (player, row, col) => {
-				console.log(
-					`Movimiento realizado por ${player} en la posición [${row}, ${col}]`
-				)
-				fetchData()
-			})
-
-			ticTacAvaxWebSocket.on('GameWon', winner => {
-				console.log(`Juego ganado por ${winner}`)
-				fetchData()
-			})
-
-			ticTacAvaxWebSocket.on('GameDraw', () => {
-				console.log('Juego empatado')
-				fetchData()
-			})
-
-			ticTacAvaxWebSocket.on('GameReset', () => {
-				console.log('Juego reiniciado')
-				fetchData()
-			})
-			console.log("connected", isConnected)
-			console.log("game over", isGameOver)
-			console.log("winner", winner)
-			console.log("address", ZeroAddress)
-			console.log(isConnected && !isGameOver && winner === ZeroAddress)
-
-			return () => {
-				ticTacAvaxWebSocket.removeAllListeners('MoveMade')
-				ticTacAvaxWebSocket.removeAllListeners('GameWon')
-				ticTacAvaxWebSocket.removeAllListeners('GameDraw')
-				ticTacAvaxWebSocket.removeAllListeners('GameReset')
-			}
 		}
 
 
@@ -204,7 +167,6 @@ export default function Home(): JSX.Element {
 	if (!isConnected) {
 		return (
 			<div className='flex justify-center items-center flex-col min-h-lvh'>
-
 				<NotAccount />
 			</div>
 		)

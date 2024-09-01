@@ -1,12 +1,10 @@
+/* eslint-disable camelcase */
 import { ethers } from 'ethers'
-import { webSocket } from 'viem'
 
 import {
 	TicTacAvax,
-	// eslint-disable-next-line camelcase
 	TicTacAvax__factory,
 	TicTacAvaxCross,
-	// eslint-disable-next-line camelcase
 	TicTacAvaxCross__factory
 } from '@/@types/typechain-types'
 import arbitrumSepoliaTicTacAvaxJson from '@/assets/json/blockchain/arbitrumSepolia/TicTacAvax.json'
@@ -26,9 +24,6 @@ export function getContracts(chain: chains): Contracts {
 	let selectedAddressTicTacAvax: string = ''
 	let selectedAddressTicTacAvaxCross: string = ''
 	let provider: ethers.JsonRpcProvider
-	const webSocket = new ethers.WebSocketProvider(
-		'wss://avalanche-fuji-c-chain-rpc.publicnode.com'
-	)
 
 	const rpcUrls = getRpcUrls()
 
@@ -52,30 +47,18 @@ export function getContracts(chain: chains): Contracts {
 		throw new Error(`Unsupported chain: ${chain}`)
 	}
 
-	// eslint-disable-next-line camelcase
 	const ticTacAvax: TicTacAvax = TicTacAvax__factory.connect(
 		selectedAddressTicTacAvax,
 		provider
 	)
 
-	const ticTacAvaxWebSocket: TicTacAvax = TicTacAvax__factory.connect(
-		selectedAddressTicTacAvax,
-		webSocket
-	)
-
-	// eslint-disable-next-line camelcase
 	const ticTacAvaxCross: TicTacAvaxCross = TicTacAvaxCross__factory.connect(
 		selectedAddressTicTacAvaxCross,
 		provider
 	)
 
-	const ticTacAvaxCrossWebSocket: TicTacAvaxCross =
-		TicTacAvaxCross__factory.connect(selectedAddressTicTacAvaxCross, webSocket)
-
 	return {
 		ticTacAvax,
-		ticTacAvaxWebSocket,
-		ticTacAvaxCross,
-		ticTacAvaxCrossWebSocket
+		ticTacAvaxCross
 	}
 }
