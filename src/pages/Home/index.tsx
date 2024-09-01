@@ -6,7 +6,7 @@ import FormPlayers from '@/components/FormPlayers'
 import NotAccount from '@/components/shared/NotAccount'
 import CyberpunkBentoTicTacToe from '@/components/TicTacToe'
 import { chains } from '@/enums/chains.enum'
-import { timestampToFormatedDate } from '@/helpers'
+import { convertBoardToSerializable, timestampToFormatedDate } from '@/helpers'
 import { getContracts } from '@/helpers/contracts'
 import { BoardContract } from '@/models/board-contract.model'
 
@@ -25,7 +25,11 @@ export default function Home(): JSX.Element {
 	const [otherChainCurrentPositionPlayer, setOtherChainCurrentPositionPlayer] =
 		useState<number>(0)
 
-	const [board, setBoard] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0, 0])
+	const [board, setBoard] = useState<number[][]>([
+		[0, 0, 0],
+		[0, 0, 0],
+		[0, 0, 0]
+	])
 
 	const [roundCount, setRoundCount] = useState<number>(0)
 
@@ -95,11 +99,7 @@ export default function Home(): JSX.Element {
 			[bigint, bigint, bigint]
 		] = await connectedTicTacAvax.getBoard()
 
-		setBoard(
-			currentConnectedBoard.map((value: [bigint, bigint, bigint]) =>
-				Number(value)
-			)
-		)
+		setBoard(convertBoardToSerializable(currentConnectedBoard))
 
 		const currentRoundCount: bigint = await connectedTicTacAvax.roundCount()
 		setRoundCount(Number(currentRoundCount))

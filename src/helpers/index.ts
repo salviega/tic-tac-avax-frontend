@@ -50,6 +50,10 @@ export async function getFrontendSigner(): Promise<ethers.JsonRpcSigner> {
 	return web3Signer
 }
 
+export function convertBoardToSerializable(board: bigint[][]): number[][] {
+	return board.map(row => row.map(cell => Number(cell)))
+}
+
 export function timestampToFormatedDate(timestamp: bigint): string {
 	const date = new Date(Number(timestamp) * 1000)
 
