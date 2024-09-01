@@ -11,11 +11,11 @@ Avalanche Solidity - Game Avax Hackathon
 
 ### Fleek deploy
 
-https://many-garage-late.on-fleek.app
-
-### TicTac Avax - contracts:
-
 https://limited-army-incalculable.on-fleek.app/
+
+### TicTac Avax - contract:
+
+https://subnets-test.avax.network/c-chain/address/0x19E59c52971A88F5822e305921d52C9Bd1f06b4E
 
 
 ## Quick start 🏄
