@@ -10,6 +10,8 @@ import {
 } from '@/@types/typechain-types'
 import arbitrumSepoliaTicTacAvaxJson from '@/assets/json/blockchain/arbitrumSepolia/TicTacAvax.json'
 import arbitrumSepoliaTicTacAvaxCrossJson from '@/assets/json/blockchain/arbitrumSepolia/TicTacAvaxCross.json'
+import avalancheFujiTicTacAvaxJson from '@/assets/json/blockchain/avalancheFuji/TicTacAvax.json'
+import avalancheFujiTicTacAvaxCrossJson from '@/assets/json/blockchain/avalancheFuji/TicTacAvaxCross.json'
 import baseSepoliaTicTacAvaxJson from '@/assets/json/blockchain/baseSepolia/TicTacAvax.json'
 import baseSepoliaTicTacAvaxCrossJson from '@/assets/json/blockchain/baseSepolia/TicTacAvaxCross.json'
 import celoAlfajoresTicTacAvaxJson from '@/assets/json/blockchain/celoAlfajores/TicTacAvax.json'
@@ -29,6 +31,10 @@ export function getContracts(chain: chains): Contracts {
 		provider = new ethers.JsonRpcProvider(rpcUrls.rpcArbitrumSepolia)
 		selectedAddressTicTacAvax = arbitrumSepoliaTicTacAvaxJson.address
 		selectedAddressTicTacAvaxCross = arbitrumSepoliaTicTacAvaxCrossJson.address
+	} else if (chain === 'avalancheFuji') {
+		provider = new ethers.JsonRpcProvider(rpcUrls.rpcAvalancheFuji)
+		selectedAddressTicTacAvax = avalancheFujiTicTacAvaxJson.address
+		selectedAddressTicTacAvaxCross = avalancheFujiTicTacAvaxCrossJson.address
 	} else if (chain === 'baseSepolia') {
 		provider = new ethers.JsonRpcProvider(rpcUrls.rpcBaseSepolia)
 		selectedAddressTicTacAvax = baseSepoliaTicTacAvaxJson.address
