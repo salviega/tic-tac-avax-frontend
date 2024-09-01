@@ -8,6 +8,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 import { RAINBOW_KIT_APP_ID, RAINBOW_KIT_APP_NAME } from './config/commons.ts'
 import App from './pages/App/App.tsx'
+import 'animate.css';
 
 import '@rainbow-me/rainbowkit/styles.css'
 import './index.css'
@@ -16,7 +17,7 @@ const config = getDefaultConfig({
 	appName: RAINBOW_KIT_APP_NAME,
 	projectId: RAINBOW_KIT_APP_ID,
 	chains: [avalancheFuji, arbitrumSepolia, celoAlfajores, baseSepolia],
-	ssr: false // If your dApp uses server side rendering (SSR)
+	ssr: false
 })
 
 
