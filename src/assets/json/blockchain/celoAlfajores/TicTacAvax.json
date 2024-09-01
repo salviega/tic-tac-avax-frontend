@@ -1,0 +1,354 @@
+{
+  "address": "0x0AF8917eaCBf6275EF9C967fD332e6CE16AB181e",
+  "abi": [
+    {
+      "inputs": [],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [],
+      "name": "GameDraw",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [],
+      "name": "GameReset",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "player1",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "player2",
+          "type": "address"
+        }
+      ],
+      "name": "GameStarted",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "winner",
+          "type": "address"
+        }
+      ],
+      "name": "GameWon",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "player",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint8",
+          "name": "row",
+          "type": "uint8"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint8",
+          "name": "col",
+          "type": "uint8"
+        }
+      ],
+      "name": "MoveMade",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "board",
+      "outputs": [
+        {
+          "internalType": "uint8",
+          "name": "",
+          "type": "uint8"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "currentPlayer",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "gameOver",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getBoard",
+      "outputs": [
+        {
+          "internalType": "uint8[3][3]",
+          "name": "",
+          "type": "uint8[3][3]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "lastMoveTimestamp",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint8",
+          "name": "row",
+          "type": "uint8"
+        },
+        {
+          "internalType": "uint8",
+          "name": "col",
+          "type": "uint8"
+        }
+      ],
+      "name": "makeMove",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "players",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "resetGame",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "roundCount",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "playerOne",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "playerTwo",
+          "type": "address"
+        }
+      ],
+      "name": "startGame",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0x6bd3baeacfc9ba26814655b8f59c62e7163d210d550ce80b8fca11faa3c7759b",
+  "receipt": {
+    "to": null,
+    "from": "0xD96B642Ca70edB30e58248689CEaFc6E36785d68",
+    "contractAddress": "0x0AF8917eaCBf6275EF9C967fD332e6CE16AB181e",
+    "transactionIndex": 0,
+    "gasUsed": "825163",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0x559d4a82fdff3218e97ec53ffd217125a0f401cfeea618fc6bae2fb83b4f03b8",
+    "transactionHash": "0x6bd3baeacfc9ba26814655b8f59c62e7163d210d550ce80b8fca11faa3c7759b",
+    "logs": [],
+    "blockNumber": 25948213,
+    "cumulativeGasUsed": "825163",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [],
+  "numDeployments": 2,
+  "solcInputHash": "a325b7dfb08e216588715ae3f9a63aef",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.24+commit.e11b9ed9\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[],\"name\":\"GameDraw\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[],\"name\":\"GameReset\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"player1\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"player2\",\"type\":\"address\"}],\"name\":\"GameStarted\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"winner\",\"type\":\"address\"}],\"name\":\"GameWon\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"player\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint8\",\"name\":\"row\",\"type\":\"uint8\"},{\"indexed\":false,\"internalType\":\"uint8\",\"name\":\"col\",\"type\":\"uint8\"}],\"name\":\"MoveMade\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"board\",\"outputs\":[{\"internalType\":\"uint8\",\"name\":\"\",\"type\":\"uint8\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"currentPlayer\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"gameOver\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getBoard\",\"outputs\":[{\"internalType\":\"uint8[3][3]\",\"name\":\"\",\"type\":\"uint8[3][3]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"lastMoveTimestamp\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint8\",\"name\":\"row\",\"type\":\"uint8\"},{\"internalType\":\"uint8\",\"name\":\"col\",\"type\":\"uint8\"}],\"name\":\"makeMove\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"players\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"resetGame\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"roundCount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"playerOne\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"playerTwo\",\"type\":\"address\"}],\"name\":\"startGame\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/TicTacAvax.sol\":\"TicTacAvax\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"contracts/TicTacAvax.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.24;\\n\\ncontract TicTacAvax {\\n\\taddress[2] public players;\\n\\tuint public currentPlayer;\\n\\tuint8[3][3] public board;\\n\\tuint public roundCount;\\n\\tbool public gameOver;\\n\\tuint public lastMoveTimestamp;\\n\\n\\tevent GameStarted(address player1, address player2);\\n\\tevent MoveMade(address player, uint8 row, uint8 col);\\n\\tevent GameWon(address winner);\\n\\tevent GameDraw();\\n\\tevent GameReset();\\n\\n\\tmodifier onlyPlayers() {\\n\\t\\trequire(\\n\\t\\t\\tmsg.sender == players[0] || msg.sender == players[1],\\n\\t\\t\\t'Not a player'\\n\\t\\t);\\n\\t\\t_;\\n\\t}\\n\\n\\tmodifier validMove(uint8 row, uint8 col) {\\n\\t\\trequire(!gameOver, 'Game over');\\n\\t\\trequire(row < 3 && col < 3, 'Invalid move');\\n\\t\\trequire(board[row][col] == 0, 'Cell already taken');\\n\\t\\t_;\\n\\t}\\n\\n\\tconstructor() {}\\n\\n\\tfunction startGame(address playerOne, address playerTwo) public {\\n\\t\\trequire(\\n\\t\\t\\tplayers[0] == address(0) && players[1] == address(0),\\n\\t\\t\\t'Game already started'\\n\\t\\t);\\n\\t\\trequire(\\n\\t\\t\\tplayerOne != address(0) && playerTwo != address(0),\\n\\t\\t\\t'Invalid player'\\n\\t\\t);\\n\\t\\trequire(playerOne != playerTwo, 'Players must be different');\\n\\n\\t\\tplayers[0] = playerOne;\\n\\t\\tplayers[1] = playerTwo;\\n\\t\\tcurrentPlayer = 0;\\n\\t\\tgameOver = false;\\n\\t\\troundCount++;\\n\\t\\tlastMoveTimestamp = block.timestamp;\\n\\n\\t\\temit GameStarted(playerOne, playerTwo);\\n\\t}\\n\\n\\tfunction makeMove(\\n\\t\\tuint8 row,\\n\\t\\tuint8 col\\n\\t) public onlyPlayers validMove(row, col) {\\n\\t\\trequire(msg.sender == players[currentPlayer], 'Not your turn');\\n\\n\\t\\tboard[row][col] = uint8(currentPlayer + 1);\\n\\t\\temit MoveMade(msg.sender, row, col);\\n\\n\\t\\tif (checkWin()) {\\n\\t\\t\\tgameOver = true;\\n\\t\\t\\temit GameWon(msg.sender);\\n\\t\\t} else if (checkDraw()) {\\n\\t\\t\\tgameOver = true;\\n\\t\\t\\temit GameDraw();\\n\\t\\t} else {\\n\\t\\t\\tcurrentPlayer = 1 - currentPlayer;\\n\\t\\t}\\n\\n\\t\\tlastMoveTimestamp = block.timestamp;\\n\\t}\\n\\n\\tfunction checkWin() internal view returns (bool) {\\n\\t\\tfor (uint8 i = 0; i < 3; i++) {\\n\\t\\t\\tif (\\n\\t\\t\\t\\t(board[i][0] == board[i][1] &&\\n\\t\\t\\t\\t\\tboard[i][1] == board[i][2] &&\\n\\t\\t\\t\\t\\tboard[i][0] != 0) ||\\n\\t\\t\\t\\t(board[0][i] == board[1][i] &&\\n\\t\\t\\t\\t\\tboard[1][i] == board[2][i] &&\\n\\t\\t\\t\\t\\tboard[0][i] != 0)\\n\\t\\t\\t) {\\n\\t\\t\\t\\treturn true;\\n\\t\\t\\t}\\n\\t\\t}\\n\\t\\tif (\\n\\t\\t\\t(board[0][0] == board[1][1] &&\\n\\t\\t\\t\\tboard[1][1] == board[2][2] &&\\n\\t\\t\\t\\tboard[0][0] != 0) ||\\n\\t\\t\\t(board[0][2] == board[1][1] &&\\n\\t\\t\\t\\tboard[1][1] == board[2][0] &&\\n\\t\\t\\t\\tboard[0][2] != 0)\\n\\t\\t) {\\n\\t\\t\\treturn true;\\n\\t\\t}\\n\\t\\treturn false;\\n\\t}\\n\\n\\tfunction checkDraw() internal view returns (bool) {\\n\\t\\tfor (uint8 i = 0; i < 3; i++) {\\n\\t\\t\\tfor (uint8 j = 0; j < 3; j++) {\\n\\t\\t\\t\\tif (board[i][j] == 0) {\\n\\t\\t\\t\\t\\treturn false;\\n\\t\\t\\t\\t}\\n\\t\\t\\t}\\n\\t\\t}\\n\\t\\treturn !checkWin();\\n\\t}\\n\\n\\tfunction resetGame() public {\\n\\t\\trequire(\\n\\t\\t\\tgameOver || block.timestamp > lastMoveTimestamp + 86400,\\n\\t\\t\\t'Game is not over yet or 24 hours have not passed'\\n\\t\\t);\\n\\n\\t\\tfor (uint8 i = 0; i < 3; i++) {\\n\\t\\t\\tfor (uint8 j = 0; j < 3; j++) {\\n\\t\\t\\t\\tboard[i][j] = 0;\\n\\t\\t\\t}\\n\\t\\t}\\n\\n\\t\\tgameOver = false;\\n\\t\\tcurrentPlayer = 0;\\n\\t\\troundCount++;\\n\\t\\tlastMoveTimestamp = block.timestamp;\\n\\t\\tplayers[0] = address(0);\\n\\t\\tplayers[1] = address(0);\\n\\n\\t\\temit GameReset();\\n\\t}\\n\\n\\tfunction getBoard() public view returns (uint8[3][3] memory) {\\n\\t\\treturn board;\\n\\t}\\n}\\n\",\"keccak256\":\"0xd56d89ecefb283a8c2631736f65a78f6074ac72a21884140c3f62929ebe6c746\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b50610df7806100206000396000f3fe608060405234801561001057600080fd5b506004361061009e5760003560e01c8063a2d4bd4011610066578063a2d4bd4014610117578063bb47221914610120578063bdb337d114610128578063eb23b56b14610145578063f71d96cb1461015857600080fd5b8063127f0b3f146100a35780633264a34b146100bf5780634404a438146100d45780635e24b0f1146100dd5780638086a92a146100f2575b600080fd5b6100ac60065481565b6040519081526020015b60405180910390f35b6100c7610183565b6040516100b69190610c27565b6100ac60025481565b6100f06100eb366004610ca1565b610209565b005b610105610100366004610cd4565b61054f565b60405160ff90911681526020016100b6565b6100ac60085481565b6100f061058b565b6007546101359060ff1681565b60405190151581526020016100b6565b6100f0610153366004610d0d565b6106fd565b61016b610166366004610d37565b6108b9565b6040516001600160a01b0390911681526020016100b6565b61018b610bdc565b60408051606081019091526003806000835b82821015610200576040805160608101918290529085840190600390826000855b825461010083900a900460ff168152602060019283018181049485019490930390920291018084116101be57905050505050508152602001906001019061019d565b50505050905090565b60008001546001600160a01b031633148061023157506000600101546001600160a01b031633145b6102715760405162461bcd60e51b815260206004820152600c60248201526b2737ba103090383630bcb2b960a11b60448201526064015b60405180910390fd5b6007548290829060ff16156102b45760405162461bcd60e51b815260206004820152600960248201526823b0b6b29037bb32b960b91b6044820152606401610268565b60038260ff161080156102ca575060038160ff16105b6103055760405162461bcd60e51b815260206004820152600c60248201526b496e76616c6964206d6f766560a01b6044820152606401610268565b60038260ff166003811061031b5761031b610d50565b018160ff166003811061033057610330610d50565b602081049091015460ff601f9092166101000a900416156103885760405162461bcd60e51b815260206004820152601260248201527121b2b6361030b63932b0b23c903a30b5b2b760711b6044820152606401610268565b60006002546002811061039d5761039d610d50565b01546001600160a01b031633146103e65760405162461bcd60e51b815260206004820152600d60248201526c2737ba103cb7bab9103a3ab93760991b6044820152606401610268565b6002546103f4906001610d7c565b60038560ff166003811061040a5761040a610d50565b018460ff166003811061041f5761041f610d50565b602091828204019190066101000a81548160ff021916908360ff1602179055507f10ac166a969b6ae9b140c9d6b88c6c4e565e4fc22f858bf92f1542535f0f161a338585604051610491939291906001600160a01b0393909316835260ff918216602084015216604082015260600190565b60405180910390a16104a16108d9565b156104eb576007805460ff191660011790556040513381527f78b3193cf31372e77b1f3045481681f86e18e346de12ae7f1ecc322ff0adf1a49060200160405180910390a1610545565b6104f3610b4c565b15610533576007805460ff191660011790556040517fa4c4401dace3a98737dc94c84d18bc94944a6d3d88571034bb81436527b1546c90600090a1610545565b600254610541906001610d95565b6002555b5050426008555050565b6003826003811061055f57600080fd5b01816003811061056e57600080fd5b602081049091015460ff601f9092166101000a9004169150829050565b60075460ff16806105aa57506008546105a79062015180610d7c565b42115b61060f5760405162461bcd60e51b815260206004820152603060248201527f47616d65206973206e6f74206f76657220796574206f7220323420686f75727360448201526f081a185d99481b9bdd081c185cdcd95960821b6064820152608401610268565b60005b60038160ff1610156106905760005b60038160ff16101561068757600060038360ff166003811061064557610645610d50565b018260ff166003811061065a5761065a610d50565b602091828204019190066101000a81548160ff021916908360ff1602179055508080600101915050610621565b50600101610612565b506007805460ff191690556000600281905560068054916106b083610da8565b909155505042600855600080546001600160a01b031990811682556001805490911690556040517fc6976b6410888b44c765590c8368eb4a60e0431d4ad683c8a53ea85a8479f22e9190a1565b6000546001600160a01b031615801561071f57506001546001600160a01b0316155b6107625760405162461bcd60e51b815260206004820152601460248201527311d85b5948185b1c9958591e481cdd185c9d195960621b6044820152606401610268565b6001600160a01b0382161580159061078257506001600160a01b03811615155b6107bf5760405162461bcd60e51b815260206004820152600e60248201526d24b73b30b634b210383630bcb2b960911b6044820152606401610268565b806001600160a01b0316826001600160a01b0316036108205760405162461bcd60e51b815260206004820152601960248201527f506c6179657273206d75737420626520646966666572656e74000000000000006044820152606401610268565b600080546001600160a01b038085166001600160a01b0319928316178355600180549185169190921617905560028190556007805460ff19169055600680549161086983610da8565b909155505042600855604080516001600160a01b038085168252831660208201527f55b25d7f9b5bf8ea934ba7079455d2ba00c68ea7e66c13695275f6b75b95e5f8910160405180910390a15050565b600081600281106108c957600080fd5b01546001600160a01b0316905081565b6000805b60038160ff161015610aa65760038160ff16600381106108ff576108ff610d50565b0154610100900460ff90811690600390831681811061092057610920610d50565b015460ff16148015610971575060038160ff166003811061094357610943610d50565b015462010000900460ff90811690600390831681811061096557610965610d50565b0154610100900460ff16145b8015610996575060038160ff166003811061098e5761098e610d50565b015460ff1615155b80610a915750600460ff8216600381106109b2576109b2610d50565b602081049091015460ff601f9092166101000a90041660036000018260ff16600381106109e1576109e1610d50565b602081049091015460ff601f9092166101000a900416148015610a5c5750600560ff821660038110610a1557610a15610d50565b602081049091015460ff601f9092166101000a90041660036001018260ff1660038110610a4457610a44610d50565b602081049091015460ff601f9092166101000a900416145b8015610a915750600360ff8216818110610a7857610a78610d50565b602081049091015460ff601f9092166101000a90041615155b15610a9e57600191505090565b6001016108dd565b5060045460035460ff90811661010090920416148015610adb5750600554600454610100900460ff9081166201000090920416145b8015610aeb575060035460ff1615155b80610b3b575060045460035462010000900460ff90811661010090920416148015610b255750600554600454610100900460ff9081169116145b8015610b3b575060035462010000900460ff1615155b15610b465750600190565b50600090565b6000805b60038160ff161015610bcd5760005b60038160ff161015610bc45760038260ff1660038110610b8157610b81610d50565b018160ff1660038110610b9657610b96610d50565b602081049091015460ff601f9092166101000a900416600003610bbc5760009250505090565b600101610b5f565b50600101610b50565b50610bd66108d9565b15905090565b60405180606001604052806003905b610bf3610c09565b815260200190600190039081610beb5790505090565b60405180606001604052806003906020820280368337509192915050565b610120810181836000805b6003808210610c415750610c81565b835185845b83811015610c6757825160ff16825260209283019290910190600101610c46565b505050606094909401935060209290920191600101610c32565b5050505092915050565b803560ff81168114610c9c57600080fd5b919050565b60008060408385031215610cb457600080fd5b610cbd83610c8b565b9150610ccb60208401610c8b565b90509250929050565b60008060408385031215610ce757600080fd5b50508035926020909101359150565b80356001600160a01b0381168114610c9c57600080fd5b60008060408385031215610d2057600080fd5b610d2983610cf6565b9150610ccb60208401610cf6565b600060208284031215610d4957600080fd5b5035919050565b634e487b7160e01b600052603260045260246000fd5b634e487b7160e01b600052601160045260246000fd5b80820180821115610d8f57610d8f610d66565b92915050565b81810381811115610d8f57610d8f610d66565b600060018201610dba57610dba610d66565b506001019056fea2646970667358221220a6d71328524da36e2fd6db35d1dcab1b6f67ee46002de2e88d77ca88bcf3bf8564736f6c63430008180033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b506004361061009e5760003560e01c8063a2d4bd4011610066578063a2d4bd4014610117578063bb47221914610120578063bdb337d114610128578063eb23b56b14610145578063f71d96cb1461015857600080fd5b8063127f0b3f146100a35780633264a34b146100bf5780634404a438146100d45780635e24b0f1146100dd5780638086a92a146100f2575b600080fd5b6100ac60065481565b6040519081526020015b60405180910390f35b6100c7610183565b6040516100b69190610c27565b6100ac60025481565b6100f06100eb366004610ca1565b610209565b005b610105610100366004610cd4565b61054f565b60405160ff90911681526020016100b6565b6100ac60085481565b6100f061058b565b6007546101359060ff1681565b60405190151581526020016100b6565b6100f0610153366004610d0d565b6106fd565b61016b610166366004610d37565b6108b9565b6040516001600160a01b0390911681526020016100b6565b61018b610bdc565b60408051606081019091526003806000835b82821015610200576040805160608101918290529085840190600390826000855b825461010083900a900460ff168152602060019283018181049485019490930390920291018084116101be57905050505050508152602001906001019061019d565b50505050905090565b60008001546001600160a01b031633148061023157506000600101546001600160a01b031633145b6102715760405162461bcd60e51b815260206004820152600c60248201526b2737ba103090383630bcb2b960a11b60448201526064015b60405180910390fd5b6007548290829060ff16156102b45760405162461bcd60e51b815260206004820152600960248201526823b0b6b29037bb32b960b91b6044820152606401610268565b60038260ff161080156102ca575060038160ff16105b6103055760405162461bcd60e51b815260206004820152600c60248201526b496e76616c6964206d6f766560a01b6044820152606401610268565b60038260ff166003811061031b5761031b610d50565b018160ff166003811061033057610330610d50565b602081049091015460ff601f9092166101000a900416156103885760405162461bcd60e51b815260206004820152601260248201527121b2b6361030b63932b0b23c903a30b5b2b760711b6044820152606401610268565b60006002546002811061039d5761039d610d50565b01546001600160a01b031633146103e65760405162461bcd60e51b815260206004820152600d60248201526c2737ba103cb7bab9103a3ab93760991b6044820152606401610268565b6002546103f4906001610d7c565b60038560ff166003811061040a5761040a610d50565b018460ff166003811061041f5761041f610d50565b602091828204019190066101000a81548160ff021916908360ff1602179055507f10ac166a969b6ae9b140c9d6b88c6c4e565e4fc22f858bf92f1542535f0f161a338585604051610491939291906001600160a01b0393909316835260ff918216602084015216604082015260600190565b60405180910390a16104a16108d9565b156104eb576007805460ff191660011790556040513381527f78b3193cf31372e77b1f3045481681f86e18e346de12ae7f1ecc322ff0adf1a49060200160405180910390a1610545565b6104f3610b4c565b15610533576007805460ff191660011790556040517fa4c4401dace3a98737dc94c84d18bc94944a6d3d88571034bb81436527b1546c90600090a1610545565b600254610541906001610d95565b6002555b5050426008555050565b6003826003811061055f57600080fd5b01816003811061056e57600080fd5b602081049091015460ff601f9092166101000a9004169150829050565b60075460ff16806105aa57506008546105a79062015180610d7c565b42115b61060f5760405162461bcd60e51b815260206004820152603060248201527f47616d65206973206e6f74206f76657220796574206f7220323420686f75727360448201526f081a185d99481b9bdd081c185cdcd95960821b6064820152608401610268565b60005b60038160ff1610156106905760005b60038160ff16101561068757600060038360ff166003811061064557610645610d50565b018260ff166003811061065a5761065a610d50565b602091828204019190066101000a81548160ff021916908360ff1602179055508080600101915050610621565b50600101610612565b506007805460ff191690556000600281905560068054916106b083610da8565b909155505042600855600080546001600160a01b031990811682556001805490911690556040517fc6976b6410888b44c765590c8368eb4a60e0431d4ad683c8a53ea85a8479f22e9190a1565b6000546001600160a01b031615801561071f57506001546001600160a01b0316155b6107625760405162461bcd60e51b815260206004820152601460248201527311d85b5948185b1c9958591e481cdd185c9d195960621b6044820152606401610268565b6001600160a01b0382161580159061078257506001600160a01b03811615155b6107bf5760405162461bcd60e51b815260206004820152600e60248201526d24b73b30b634b210383630bcb2b960911b6044820152606401610268565b806001600160a01b0316826001600160a01b0316036108205760405162461bcd60e51b815260206004820152601960248201527f506c6179657273206d75737420626520646966666572656e74000000000000006044820152606401610268565b600080546001600160a01b038085166001600160a01b0319928316178355600180549185169190921617905560028190556007805460ff19169055600680549161086983610da8565b909155505042600855604080516001600160a01b038085168252831660208201527f55b25d7f9b5bf8ea934ba7079455d2ba00c68ea7e66c13695275f6b75b95e5f8910160405180910390a15050565b600081600281106108c957600080fd5b01546001600160a01b0316905081565b6000805b60038160ff161015610aa65760038160ff16600381106108ff576108ff610d50565b0154610100900460ff90811690600390831681811061092057610920610d50565b015460ff16148015610971575060038160ff166003811061094357610943610d50565b015462010000900460ff90811690600390831681811061096557610965610d50565b0154610100900460ff16145b8015610996575060038160ff166003811061098e5761098e610d50565b015460ff1615155b80610a915750600460ff8216600381106109b2576109b2610d50565b602081049091015460ff601f9092166101000a90041660036000018260ff16600381106109e1576109e1610d50565b602081049091015460ff601f9092166101000a900416148015610a5c5750600560ff821660038110610a1557610a15610d50565b602081049091015460ff601f9092166101000a90041660036001018260ff1660038110610a4457610a44610d50565b602081049091015460ff601f9092166101000a900416145b8015610a915750600360ff8216818110610a7857610a78610d50565b602081049091015460ff601f9092166101000a90041615155b15610a9e57600191505090565b6001016108dd565b5060045460035460ff90811661010090920416148015610adb5750600554600454610100900460ff9081166201000090920416145b8015610aeb575060035460ff1615155b80610b3b575060045460035462010000900460ff90811661010090920416148015610b255750600554600454610100900460ff9081169116145b8015610b3b575060035462010000900460ff1615155b15610b465750600190565b50600090565b6000805b60038160ff161015610bcd5760005b60038160ff161015610bc45760038260ff1660038110610b8157610b81610d50565b018160ff1660038110610b9657610b96610d50565b602081049091015460ff601f9092166101000a900416600003610bbc5760009250505090565b600101610b5f565b50600101610b50565b50610bd66108d9565b15905090565b60405180606001604052806003905b610bf3610c09565b815260200190600190039081610beb5790505090565b60405180606001604052806003906020820280368337509192915050565b610120810181836000805b6003808210610c415750610c81565b835185845b83811015610c6757825160ff16825260209283019290910190600101610c46565b505050606094909401935060209290920191600101610c32565b5050505092915050565b803560ff81168114610c9c57600080fd5b919050565b60008060408385031215610cb457600080fd5b610cbd83610c8b565b9150610ccb60208401610c8b565b90509250929050565b60008060408385031215610ce757600080fd5b50508035926020909101359150565b80356001600160a01b0381168114610c9c57600080fd5b60008060408385031215610d2057600080fd5b610d2983610cf6565b9150610ccb60208401610cf6565b600060208284031215610d4957600080fd5b5035919050565b634e487b7160e01b600052603260045260246000fd5b634e487b7160e01b600052601160045260246000fd5b80820180821115610d8f57610d8f610d66565b92915050565b81810381811115610d8f57610d8f610d66565b600060018201610dba57610dba610d66565b506001019056fea2646970667358221220a6d71328524da36e2fd6db35d1dcab1b6f67ee46002de2e88d77ca88bcf3bf8564736f6c63430008180033",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 5,
+        "contract": "contracts/TicTacAvax.sol:TicTacAvax",
+        "label": "players",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_array(t_address)2_storage"
+      },
+      {
+        "astId": 7,
+        "contract": "contracts/TicTacAvax.sol:TicTacAvax",
+        "label": "currentPlayer",
+        "offset": 0,
+        "slot": "2",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 13,
+        "contract": "contracts/TicTacAvax.sol:TicTacAvax",
+        "label": "board",
+        "offset": 0,
+        "slot": "3",
+        "type": "t_array(t_array(t_uint8)3_storage)3_storage"
+      },
+      {
+        "astId": 15,
+        "contract": "contracts/TicTacAvax.sol:TicTacAvax",
+        "label": "roundCount",
+        "offset": 0,
+        "slot": "6",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 17,
+        "contract": "contracts/TicTacAvax.sol:TicTacAvax",
+        "label": "gameOver",
+        "offset": 0,
+        "slot": "7",
+        "type": "t_bool"
+      },
+      {
+        "astId": 19,
+        "contract": "contracts/TicTacAvax.sol:TicTacAvax",
+        "label": "lastMoveTimestamp",
+        "offset": 0,
+        "slot": "8",
+        "type": "t_uint256"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_array(t_address)2_storage": {
+        "base": "t_address",
+        "encoding": "inplace",
+        "label": "address[2]",
+        "numberOfBytes": "64"
+      },
+      "t_array(t_array(t_uint8)3_storage)3_storage": {
+        "base": "t_array(t_uint8)3_storage",
+        "encoding": "inplace",
+        "label": "uint8[3][3]",
+        "numberOfBytes": "96"
+      },
+      "t_array(t_uint8)3_storage": {
+        "base": "t_uint8",
+        "encoding": "inplace",
+        "label": "uint8[3]",
+        "numberOfBytes": "32"
+      },
+      "t_bool": {
+        "encoding": "inplace",
+        "label": "bool",
+        "numberOfBytes": "1"
+      },
+      "t_uint256": {
+        "encoding": "inplace",
+        "label": "uint256",
+        "numberOfBytes": "32"
+      },
+      "t_uint8": {
+        "encoding": "inplace",
+        "label": "uint8",
+        "numberOfBytes": "1"
+      }
+    }
+  }
+}
