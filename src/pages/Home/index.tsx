@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { ZeroAddress } from 'ethers'
+import toast from 'react-hot-toast'
 import { useAccount } from 'wagmi'
 
 // import BackgroundAudio from '@/components/BackGroundSound';
@@ -16,7 +17,6 @@ import {
 import { getContracts } from '@/helpers/contracts'
 
 import Loading from '../../components/shared/Loading/index'
-import toast from 'react-hot-toast'
 
 export default function Home(): JSX.Element {
 	const [currentPlayer, setCurrentPlayer] = useState<string>(ZeroAddress)
@@ -73,7 +73,6 @@ export default function Home(): JSX.Element {
 		// get current winner
 		setWinner(await ticTacAvax.winner())
 
-
 		// get last winner
 		setLastWinner(await ticTacAvax.lastRoundWinner())
 
@@ -87,35 +86,6 @@ export default function Home(): JSX.Element {
 	useEffect(() => {
 		if (address) {
 			fetchData()
-
-			ticTacAvaxWebSocket.on('MoveMade', (player, row, col) => {
-				console.log(
-					`Movimiento realizado por ${player} en la posición [${row}, ${col}]`
-				)
-				fetchData()
-			})
-
-			ticTacAvaxWebSocket.on('GameWon', winner => {
-				console.log(`Juego ganado por ${winner}`)
-				fetchData()
-			})
-
-			ticTacAvaxWebSocket.on('GameDraw', () => {
-				console.log('Juego empatado')
-				fetchData()
-			})
-
-			ticTacAvaxWebSocket.on('GameReset', () => {
-				console.log('Juego reiniciado')
-				fetchData()
-			})
-
-			return () => {
-				ticTacAvaxWebSocket.removeAllListeners('MoveMade')
-				ticTacAvaxWebSocket.removeAllListeners('GameWon')
-				ticTacAvaxWebSocket.removeAllListeners('GameDraw')
-				ticTacAvaxWebSocket.removeAllListeners('GameReset')
-			}
 		}
 	}, [address])
 
@@ -198,7 +168,6 @@ export default function Home(): JSX.Element {
 	if (!isConnected) {
 		return (
 			<div className='flex justify-center items-center flex-col min-h-lvh'>
-
 				<NotAccount />
 			</div>
 		)
@@ -210,7 +179,8 @@ export default function Home(): JSX.Element {
 			) : (
 				<>
 					<div className=''>
-						{isConnected && isGameOver && winner !== ZeroAddress || !isGameOver && lastWinner !== ZeroAddress ? (
+						{(isConnected && isGameOver && winner !== ZeroAddress) ||
+						(!isGameOver && lastWinner !== ZeroAddress) ? (
 							<CyberpunkBentoTicTacToe
 								board={board}
 								setBoard={setBoard}

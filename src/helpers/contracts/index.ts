@@ -1,12 +1,10 @@
+/* eslint-disable camelcase */
 import { ethers } from 'ethers'
-import { webSocket } from 'viem'
 
 import {
 	TicTacAvax,
-	// eslint-disable-next-line camelcase
 	TicTacAvax__factory,
 	TicTacAvaxCross,
-	// eslint-disable-next-line camelcase
 	TicTacAvaxCross__factory
 } from '@/@types/typechain-types'
 import arbitrumSepoliaTicTacAvaxJson from '@/assets/json/blockchain/arbitrumSepolia/TicTacAvax.json'
@@ -52,7 +50,6 @@ export function getContracts(chain: chains): Contracts {
 		throw new Error(`Unsupported chain: ${chain}`)
 	}
 
-	// eslint-disable-next-line camelcase
 	const ticTacAvax: TicTacAvax = TicTacAvax__factory.connect(
 		selectedAddressTicTacAvax,
 		provider
@@ -63,7 +60,6 @@ export function getContracts(chain: chains): Contracts {
 		webSocket
 	)
 
-	// eslint-disable-next-line camelcase
 	const ticTacAvaxCross: TicTacAvaxCross = TicTacAvaxCross__factory.connect(
 		selectedAddressTicTacAvaxCross,
 		provider
@@ -71,6 +67,28 @@ export function getContracts(chain: chains): Contracts {
 
 	const ticTacAvaxCrossWebSocket: TicTacAvaxCross =
 		TicTacAvaxCross__factory.connect(selectedAddressTicTacAvaxCross, webSocket)
+
+	ticTacAvaxWebSocket.on('MoveMade', (player, row, col) => {
+		console.log(
+			`Movimiento realizado por ${player} en la posición [${row}, ${col}]`
+		)
+		// Aquí puedes actualizar el estado del frontend
+	})
+
+	ticTacAvaxWebSocket.on('GameWon', winner => {
+		console.log(`Juego ganado por ${winner}`)
+		// Actualiza el estado del frontend
+	})
+
+	ticTacAvaxWebSocket.on('GameDraw', () => {
+		console.log('Juego empatado')
+		// Actualiza el estado del frontend
+	})
+
+	ticTacAvaxWebSocket.on('GameReset', () => {
+		console.log('Juego reiniciado')
+		// Actualiza el estado del frontend
+	})
 
 	return {
 		ticTacAvax,
