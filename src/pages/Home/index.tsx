@@ -6,30 +6,33 @@ import { useAccount } from 'wagmi'
 import FormPlayers from '@/components/FormPlayers'
 import NotAccount from '@/components/shared/NotAccount'
 import CyberpunkBentoTicTacToe from '@/components/TicTacToe'
-import {
-	chainTicTacAvaxAddress,
-	chainTicTacAvaxCrossAddress
-} from '@/enums/chain-contracts-addresses.enum'
+import { chainTicTacAvaxCrossAddress } from '@/enums/chain-contracts-addresses.enum'
 import { chainNames } from '@/enums/chain-names.enum'
-import { chainValues } from '@/enums/chain-values.enum'
 import { chains } from '@/enums/chains.enum'
-import { convertBoardToSerializable, timestampToFormatedDate } from '@/helpers'
+import {
+	convertBoardToSerializable,
+	getChainEnum,
+	getChainValue,
+	getDestinationChain,
+	getDestinationTicTacAvaxCrossAddress,
+	timestampToFormatedDate
+} from '@/helpers'
 import { getContracts } from '@/helpers/contracts'
 
 import Loading from '../../components/shared/Loading/index'
 
 export default function Home(): JSX.Element {
+	const [chainValue, setChainValue] = useState<number>(0)
+	const [gameCount, setGameCount] = useState<number>(0)
 	const [isGameOver, setIsGameOver] = useState<boolean>(false)
-
+	const [isLoading, setIsLoading] = useState<boolean>(true)
+	const [isStartGame, setIsStartGame] = useState<boolean>(false)
+	const [lastMoveTimestamp, setLastMoveTimestamp] = useState<string>('')
+	const [lastWinner, setLastWinner] = useState<string>(ZeroAddress)
 	const [playerOne, setPlayerTwo] = useState<string>(ZeroAddress)
-
 	const [playerTwo, setPlayerOne] = useState<string>(ZeroAddress)
-
-	const [connectedCurrentPositionPlayer, setConnectedCurrentPositionPlayer] =
-		useState<number>(0)
-
-	const [otherChainCurrentPositionPlayer, setOtherChainCurrentPositionPlayer] =
-		useState<number>(0)
+	const [roundCount, setRoundCount] = useState<number>(0)
+	const [winner, setWinner] = useState<string>(ZeroAddress)
 
 	const [board, setBoard] = useState<number[][]>([
 		[0, 0, 0],
@@ -37,15 +40,11 @@ export default function Home(): JSX.Element {
 		[0, 0, 0]
 	])
 
-	const [winner, setWinner] = useState<string>(ZeroAddress)
+	const [connectedCurrentPositionPlayer, setConnectedCurrentPositionPlayer] =
+		useState<number>(0)
 
-	const [roundCount, setRoundCount] = useState<number>(0)
-
-	const [lastWinner, setLastWinner] = useState<string>(ZeroAddress)
-
-	const [lastMoveTimestamp, setLastMoveTimestamp] = useState<string>('')
-
-	const [gameCount, setGameCount] = useState<number>(0)
+	const [otherChainCurrentPositionPlayer, setOtherChainCurrentPositionPlayer] =
+		useState<number>(0)
 
 	const [destinationChain, setDestinationChain] = useState<
 		chainNames | undefined
@@ -55,28 +54,13 @@ export default function Home(): JSX.Element {
 		string | undefined
 	>(undefined)
 
-	const [chainValue, setChainValue] = useState<number>(0)
-
-	const [isLoading, setIsLoading] = useState<boolean>(true)
-	const [isStartGame, setIsStartGame] = useState<boolean>(false)
 	const { address, isConnected, chainId } = useAccount()
 
 	if (chainId === undefined) {
 		return <Loading />
 	}
 
-	const getChainEnum = (): chains | undefined => {
-		switch (chainId) {
-			case 43113:
-				return chains.AVALANCHE_FUJI
-			case 44787:
-				return chains.CELO_ALFAJORES
-			default:
-				return undefined
-		}
-	}
-
-	const chainEnum: chains | undefined = getChainEnum()
+	const chainEnum: chains | undefined = getChainEnum(chainId)
 
 	const { ticTacAvaxCross: connectedTicTacAvax } = getContracts(
 		chainEnum as chains
@@ -88,52 +72,22 @@ export default function Home(): JSX.Element {
 			: chains.CELO_ALFAJORES
 	)
 
-	function getDestinationChain(chainName: chainNames): chainNames {
-		switch (chainName) {
-			case chainNames.AVALANCHE_FUJI:
-				return chainNames.AVALANCHE_FUJI
-			case chainNames.CELO_ALFAJORES:
-				return chainNames.CELO_ALFAJORES
-			default:
-				return chainNames.DEFAULT
+	// eslint-disable-next-line react-hooks/rules-of-hooks
+	useEffect(() => {
+		if (address) {
+			fetchData()
 		}
-	}
+	}, [address])
 
-	function getDestinationTicTacAvaxAddress(
-		ticTacAvaxAddress: chainTicTacAvaxAddress
-	): string | undefined {
-		switch (ticTacAvaxAddress) {
-			case chainTicTacAvaxAddress.AVALANCHE_FUJI:
-				return chainTicTacAvaxAddress.AVALANCHE_FUJI
-			case chainTicTacAvaxAddress.CELO_ALFAJORES:
-				return chainTicTacAvaxAddress.CELO_ALFAJORES
-			default:
-				return chainTicTacAvaxAddress.DEFAULT
-		}
+	const startGame = () => {
+		setIsStartGame(true)
 	}
-
-	function getDestinationTicTacAvaxCrossAddress(
-		ticTacAvaxCrossAddress: chainTicTacAvaxCrossAddress
-	): string | undefined {
-		switch (ticTacAvaxCrossAddress) {
-			case chainTicTacAvaxCrossAddress.AVALANCHE_FUJI:
-				return chainTicTacAvaxCrossAddress.AVALANCHE_FUJI
-			case chainTicTacAvaxCrossAddress.CELO_ALFAJORES:
-				return chainTicTacAvaxCrossAddress.CELO_ALFAJORES
-			default:
-				return chainTicTacAvaxCrossAddress.DEFAULT
-		}
-	}
-
-	function getChainValue(chainEnum: chains): number {
-		switch (chainEnum) {
-			case chains.AVALANCHE_FUJI:
-				return chainValues.AVALANCHE_FUJI
-			case chains.CELO_ALFAJORES:
-				return chainValues.CELO_ALFAJORES
-			default:
-				return Number(chainValues.DEFAULT)
-		}
+	const resetBoard = () => {
+		setBoard([
+			[0, 0, 0],
+			[0, 0, 0],
+			[0, 0, 0]
+		])
 	}
 
 	const fetchData = async () => {
@@ -206,17 +160,17 @@ export default function Home(): JSX.Element {
 
 		setDestinationChain(destinationChainName)
 
-		const destinationTicTacAvaxAddress = getDestinationTicTacAvaxAddress(
-			(chainEnum as chains) === chains.CELO_ALFAJORES
-				? chainTicTacAvaxAddress.AVALANCHE_FUJI
-				: chainTicTacAvaxAddress.CELO_ALFAJORES
-		)
-
-		// const destinationTicTacAvaxCrossAddress = getDestinationTicTacAvaxCrossAddress(
+		// const destinationTicTacAvaxAddress = getDestinationTicTacAvaxAddress(
 		// 	(chainEnum as chains) === chains.CELO_ALFAJORES
-		// 		? chainTicTacAvaxCrossAddress.AVALANCHE_FUJI
-		// 		: chainTicTacAvaxCrossAddress.CELO_ALFAJORES
+		// 		? chainTicTacAvaxAddress.AVALANCHE_FUJI
+		// 		: chainTicTacAvaxAddress.CELO_ALFAJORES
 		// )
+
+		const destinationTicTacAvaxAddress = getDestinationTicTacAvaxCrossAddress(
+			(chainEnum as chains) === chains.CELO_ALFAJORES
+				? chainTicTacAvaxCrossAddress.AVALANCHE_FUJI
+				: chainTicTacAvaxCrossAddress.CELO_ALFAJORES
+		)
 
 		setDestinationAddress(destinationTicTacAvaxAddress)
 
@@ -254,22 +208,45 @@ export default function Home(): JSX.Element {
 		}
 	}
 
-	// eslint-disable-next-line react-hooks/rules-of-hooks
-	useEffect(() => {
-		if (address) {
-			fetchData()
-		}
-	}, [address])
+	const onMakeMove = async (row: number, column: number) => {
+		try {
+			setIsLoading(true)
 
-	const startGame = () => {
-		setIsStartGame(true)
+			const makeMoveTx = await connectedTicTacAvax.makeMove(
+				destinationChain as string,
+				destinationAddress as string,
+				row,
+				column,
+				{
+					value: chainValue
+				}
+			)
+
+			await makeMoveTx.wait()
+		} catch (error) {
+			console.error(error)
+			// TODO: toast error
+		} finally {
+			await fetchData()
+		}
 	}
-	const resetBoard = () => {
-		setBoard([
-			[0, 0, 0],
-			[0, 0, 0],
-			[0, 0, 0]
-		])
+
+	const resetGame = async () => {
+		try {
+			setIsLoading(true)
+
+			const resetGameTx = await connectedTicTacAvax.resetGame(
+				destinationChain as string,
+				destinationAddress as string
+			)
+
+			await resetGameTx.wait()
+		} catch (error) {
+			console.error(error)
+			// TODO: toast error
+		} finally {
+			await fetchData()
+		}
 	}
 
 	return (

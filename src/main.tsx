@@ -1,12 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { WagmiProvider } from 'wagmi'
-import {
-	arbitrumSepolia,
-	avalancheFuji,
-	baseSepolia,
-	celoAlfajores
-} from 'wagmi/chains'
+import { avalancheFuji, celoAlfajores } from 'wagmi/chains'
 
 import {
 	darkTheme,
