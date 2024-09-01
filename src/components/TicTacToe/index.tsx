@@ -14,8 +14,8 @@ import { Card, CardContent } from '@/components/ui/card'
 
 import Avatar from '../Avatar'
 
-const clickSound = new Audio('src/assets/sounds/hoverSound.wav')
-const winSound = new Audio('src/assets/sounds/winSound.wav')
+const clickSound = new Audio('sounds/hoverSound.wav')
+const winSound = new Audio('sounds/winSound.wav')
 
 type SquareProps = {
 	value: number
@@ -157,7 +157,7 @@ export default function CyberpunkBentoTicTacToe({
 			<div className='relative z-10 w-full max-w-4xl'>
 				<div className="flex justify-center flex-col items-center mb-8">
 					<img
-						src="src/assets/images/TicTacToe-Avax.png"
+						src="images/TicTacToe-Avax.png"
 						alt="Logo"
 						className="w-[400px] mb-4"
 					/>

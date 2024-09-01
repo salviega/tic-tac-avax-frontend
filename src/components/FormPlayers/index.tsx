@@ -56,7 +56,7 @@ export default function FormPlayers(props: Props) {
 	}
 	return (
 		<div className='p-4'>
-			<BackgroundAudio audioSrc='src/assets/sounds/menuSound.mp3' />
+			<BackgroundAudio audioSrc='sounds/menuSound.mp3' />
 			<Tilt className='Tilt' options={{ scale: 1, max: 25 }}>
 				<Card className='w-96 h-[auto] rounded-xl bg-[#0F0D0C]/50 backdrop-blur border-rose-400 border-2'>
 					<CardContent className='space-y-4 flex justify-center flex-col items-center'>
@@ -67,12 +67,12 @@ export default function FormPlayers(props: Props) {
 							<Tilt className='Tilt' options={{ scale: 1, max: 25 }}>
 								<div className='flex justify-center flex-col items-center'>
 									<img
-										src='src/assets/images/logoTicTacToeAvax.webp'
+										src='images/logoTicTacToeAvax.webp'
 										alt='logo Webp'
 										className='size-[200px]'
 									/>
 									<img
-										src='src/assets/images/TicTacToe-Avax.png'
+										src='images/TicTacToe-Avax.png'
 										alt='logo tic tac toe avax'
 									/>
 								</div>

@@ -7,7 +7,7 @@ export default function Navbar(): JSX.Element {
 			aria-label="Main Navigation"
 		>
 			<div className="flex items-center justify-center w-full md:w-auto">
-				<img src="src/assets/images/TicTacToe-Avax.png" alt="Logo TicTacToe" className='w-[200px]' />
+				<img src="images/TicTacToe-Avax.png" alt="Logo TicTacToe" className='w-[200px]' />
 			</div>
 			<ul className="flex flex-col justify-around items-center w-full md:flex-row md:w-auto space-y-4 md:space-y-0 md:space-x-8" role="menu">
 				<li role="menuitem">

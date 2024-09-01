@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 html {
-    background-image: url('/src/assets/bgDarkMesh.jpg');
+    background-image: url('assets/bgDarkMesh.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
