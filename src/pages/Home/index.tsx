@@ -155,6 +155,7 @@ export default function Home(): JSX.Element {
 									board={board}
 									setBoard={setBoard}
 									resetBoard={resetBoard}
+									currentRoundCount={roundCount}
 								/>
 							)}
 						</div>

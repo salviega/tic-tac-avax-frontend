@@ -18,6 +18,7 @@ type TicTacToeProps = {
     board: number[][];
     setBoard: (board: number[][]) => void;
     resetBoard: () => void;
+    currentRoundCount: number;
 }
 
 function Square({ value, onSquareClick }: SquareProps) {
@@ -59,11 +60,10 @@ function Square({ value, onSquareClick }: SquareProps) {
     );
 }
 
-export default function CyberpunkBentoTicTacToe({ board, setBoard, resetBoard }: TicTacToeProps) {
+export default function CyberpunkBentoTicTacToe({ board, setBoard, resetBoard, currentRoundCount }: TicTacToeProps) {
     const [xIsNext, setXIsNext] = useState(true);
     const [xScore, setXScore] = useState(0);
     const [oScore, setOScore] = useState(0);
-    const [showStats, setShowStats] = useState(false);
 
     useEffect(() => {
         const winner = calculateWinner(board);
@@ -112,22 +112,13 @@ export default function CyberpunkBentoTicTacToe({ board, setBoard, resetBoard }:
     } else {
         status = 'Next player: ' + (xIsNext ? 'X' : 'O');
     }
+    console.log('status', currentRoundCount);
 
     return (
         <div className={`min-h-screen p-8 flex items-center justify-center font-mono backdrop-blur animate__bounceIn`}>
             <div className="relative z-10 w-full max-w-4xl">
                 <div className="flex justify-center flex-col items-center mb-8">
                     <img src="src/assets/images/TicTacToe-Avax.png" alt="Logo" className='w-[400px]' />
-                    <div className="flex gap-2">
-                        <Button
-                            onClick={() => setShowStats(!showStats)}
-                            variant="outline"
-                            size="icon"
-                            className="rounded-full bg-black bg-opacity-50 border border-[#37005B] shadow-[0_0_10px_#37005B] text-[#37005B] hover:bg-cyan-900 hover:bg-opacity-30"
-                        >
-                            <BarChart2 className="h-[1.2rem] w-[1.2rem]" />
-                        </Button>
-                    </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -168,18 +159,18 @@ export default function CyberpunkBentoTicTacToe({ board, setBoard, resetBoard }:
                                 <p className="text-lg text-center font-medium text-[#00FFFF]">{status}</p>
                             </CardContent>
                         </Card>
-                        {showStats && (
-                            <Card className="bg-black bg-opacity-50 border border-[#37005B] shadow-[0_0_20px_#37005B] rounded-lg overflow-hidden">
-                                <CardContent className="p-6">
-                                    <h2 className="text-xl font-semibold mb-4 text-cyan-400">Statistics</h2>
-                                    <div className="space-y-2">
-                                        <p className="text-yellow-400">Total Games: {xScore + oScore}</p>
-                                        <p className="text-yellow-400">X Win Rate: {xScore + oScore > 0 ? ((xScore / (xScore + oScore)) * 100).toFixed(1) : 0}%</p>
-                                        <p className="text-yellow-400">O Win Rate: {xScore + oScore > 0 ? ((oScore / (xScore + oScore)) * 100).toFixed(1) : 0}%</p>
-                                    </div>
-                                </CardContent>
-                            </Card>
-                        )}
+
+                        <Card className="bg-black bg-opacity-50 border border-[#37005B] shadow-[0_0_20px_#37005B] rounded-xl overflow-hidden">
+                            <CardContent className="p-6">
+                                <h2 className="text-xl font-semibold mb-4 text-white text-center">Statistics</h2>
+                                <div className="space-y-2">
+                                    <p className="text-yellow-400">Total Games: {currentRoundCount}</p>
+                                    <p className="text-yellow-400">X Win Rate: {xScore + oScore > 0 ? ((xScore / (xScore + oScore)) * 100).toFixed(1) : 0}%</p>
+                                    <p className="text-yellow-400">O Win Rate: {xScore + oScore > 0 ? ((oScore / (xScore + oScore)) * 100).toFixed(1) : 0}%</p>
+                                </div>
+                            </CardContent>
+                        </Card>
+
                         <Button
                             onClick={resetBoard}
                             className="w-full py-4 bg-gradient-to-r from-cyan-500 to-pink-500 text-white rounded-xl hover:from-cyan-600 hover:to-pink-600 transition-all duration-200  flex items-center justify-center gap-2"
