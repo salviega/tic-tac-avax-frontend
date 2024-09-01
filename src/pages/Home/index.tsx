@@ -102,8 +102,7 @@ export default function Home(): JSX.Element {
 				})
 			await startGameTx.wait()
 		} catch (error) {
-			console.error(error)
-			// TODO: toast error
+			toast.error('Error starting game')
 		} finally {
 			fetchData()
 		}
@@ -178,7 +177,14 @@ export default function Home(): JSX.Element {
 				<Loading />
 			) : (
 				<div>
-					{isConnected && (!isGameOver || (isGameOver && winner !== ZeroAddress)) ? (
+
+
+
+					{isConnected && playerOne === ZeroAddress && winner === ZeroAddress ? (
+
+						<FormPlayers startGame={onStartGame} />
+
+					) : (
 						<CyberpunkBentoTicTacToe
 							board={board}
 							setBoard={setBoard}
@@ -189,11 +195,7 @@ export default function Home(): JSX.Element {
 							sendMovent={onMakeMove}
 							isLoadingBoard={isLoadingBoard}
 						/>
-					) : (
 						/* Renderiza el formulario si el juego ha terminado y el ganador es ZeroAddress */
-						isConnected && isGameOver && winner === ZeroAddress && (
-							<FormPlayers startGame={onStartGame} />
-						)
 					)}
 
 				</div>
