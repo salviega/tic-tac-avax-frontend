@@ -8,15 +8,15 @@ Avalanche Solidity - Game Avax Hackathon
 | Contracts                | Address                                |
 | ------------------------ | ------------------------------------------ |
 | TicTacAvax        | 0x19E59c52971A88F5822e305921d52C9Bd1f06b4E |
+| TicTacAvaxCross        | 0x87DfF2BdeF0e613BfceF76427b30829A50FaA395 |
 
 ### Fleek deploy
 
 https://limited-army-incalculable.on-fleek.app/
 
-### TicTac Avax - contract:
+### Tic Tac Avax - contract:
 
-https://subnets-test.avax.network/c-chain/address/0x19E59c52971A88F5822e305921d52C9Bd1f06b4E
-
+https://github.com/salviega/tic-tac-avax-contracts
 
 ## Quick start 🏄
 
